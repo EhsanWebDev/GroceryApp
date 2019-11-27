@@ -9,7 +9,7 @@ import { AppLoading } from 'expo';
 
 import { Ionicons } from '@expo/vector-icons';
 
-
+  
 export default class App extends React.Component {
   constructor(props) {
     super(props);
