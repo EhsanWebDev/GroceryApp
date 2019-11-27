@@ -37,12 +37,8 @@ class Home extends Component {
          }
          else{
                this.manageState(true,false)
-
          }
        })
-   
-      
-     
   }
 
  
