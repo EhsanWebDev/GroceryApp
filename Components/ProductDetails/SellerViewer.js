@@ -42,7 +42,9 @@ class SellerViewer extends Component {
           </View>
           
           <View style={{justifyContent:'center', alignItems:'center', marginTop:10}}>
-              <TouchableOpacity ><Text style={{color:'red', fontSize:16}}>Visit Store</Text></TouchableOpacity>
+              <TouchableOpacity onPress={this.props.visit}>
+                  <Text style={{color:'red', fontSize:16}}>Visit Store</Text>
+            </TouchableOpacity>
           </View>
       </View>
     );

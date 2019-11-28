@@ -22,7 +22,7 @@ import SignUp from './Auth/SignUp';
 import ForgotPassword from './Auth/FogotPassword'
 import MyOrders from './UserScreens/MyOrders'
 import { Icon } from 'native-base';
-
+import VisitStore from './Store/VisitStore'
 const Home = createStackNavigator ({
     HomeScreen:HomeScreen,
     PD:ProductDetails,
@@ -36,6 +36,7 @@ const Home = createStackNavigator ({
     Subcategory:Subcategory,
     DisplayProducts:DisplayProducts,
     PD:ProductDetails,
+    VisitStore:VisitStore,
     Cart:Cart,
     userAddress:userAddress ,   
     PlaceOrders:PlaceOrder 
