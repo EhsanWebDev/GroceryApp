@@ -1,22 +1,28 @@
 import React, { PureComponent } from 'react';
 import { View, Text,FlatList,Image,TouchableOpacity, ActivityIndicator } from 'react-native';
 import {connect} from 'react-redux'
+import {Header, Body, Right, Button, Title ,Left, Icon} from 'native-base'
 import {bindActionCreators} from 'redux'
 import {addToCart} from '../../store/actions'
+import CartIcon from '../ShoppingCartIcon'
 import {URL} from '../../utls'
 import Axios from 'axios';
+import Constants from 'expo-constants';
 class VisitStore extends PureComponent {
     constructor(props) {
         super(props);
         this.state = { 
-            data:[]
+            data:[],
+            limit:6,
          };
     }
 
+    static navigationOptions={
+       header:null
+    }
+
     componentDidMount(){
-            Axios.get(`${URL}api/StoresApi/ShowStore?id=1203`)
-            .then((res)=>this.setState({data:res.data}))
-            .catch(e=>console.log(e))
+           this.getData()
     }
     renderStore=({item})=>{
         return(
@@ -41,7 +47,7 @@ class VisitStore extends PureComponent {
                            padding:5,
                            borderRadius:5,
                            margin:10
-                      }} onPress={() => this.props.addToCart({id:item.ID,name:item.NAME,price:item.PRICE,discountedPrice:this.calPercentage(item.PRICE,item.DISCOUNT) || null,img:item.IMAGE1, units:1,store_id:item.STORE_ID})}> 
+                      }} > 
                               <Text style = {{
                                     fontSize:16,
                                     fontWeight:'200',
@@ -54,22 +60,57 @@ class VisitStore extends PureComponent {
             </View>
         )
     }
+    getData=()=>{
+        Axios.get(`${URL}api/StoresApi/ShowStore?id=${this.props.navigation.getParam('itemName')}&limit=`+this.state.limit)
+        .then((res)=>this.setState({data:res.data}))
+        .catch(e=>console.log(e))
+    }
+    loadMore = () =>{
+       // console.warn('end')
+        this.setState({
+            limit:this.state.limit+6
+        })
+        this.getData();
+        
+    }
     render() {
+       
         return (
-            <View style={{flex:1}}>
-               <FlatList
+            <View style={{flex:1,marginTop:Constants.statusBarHeight}}>
+  <Header style = {{backgroundColor:'seagreen'}}>
+                        <Left>
+                          <Button transparent onPress = {() => this.props.navigation.goBack() }>
+                            <Icon name='arrow-back' />
+                          </Button>
+                        </Left>
+                        <Body>
+                          <Title>Store Details</Title>
+                        </Body>
+                        <Right>
+                                  <CartIcon />
+                        </Right>
+
+                </Header>
+                
+    <FlatList
+               
                     data={this.state.data}
                     renderItem={this.renderStore}
-                    initialNumToRender={4}
                     ListEmptyComponent={
-                        <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                                <ActivityIndicator size="large" />
-                        </View>
-                    
-                }
+                        <ActivityIndicator size="large" />
+                    }
+                      extraData={this.state}
+                    keyExtractor = { (item) => item.ID.toString() }
+                    onEndReached={this.loadMore}
+                    onEndReachedThreshold={0.3}
+                    ListFooterComponent={
+                        <ActivityIndicator size="large" />
+                    }
                     numColumns={2}
-                    keyExtractor = { (item) => item.ID.toString() } />
+                    />  
+
             </View>
+       
         );
     }
 }

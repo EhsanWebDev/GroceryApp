@@ -86,7 +86,7 @@ class ProductDetails extends Component {
                                 </Text>
                       </View>
 
-                      <SellerViewer visit={()=>this.props.navigation.navigate('VisitStore')} item={item}>
+                      <SellerViewer navigation={this.props.navigation} item={item}>
                   
                   </SellerViewer>
 
