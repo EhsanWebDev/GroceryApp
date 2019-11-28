@@ -7,7 +7,7 @@ class Reviews extends Component {
     return (
       <View style = {styles.mainContainer}>
         <View>
-            <View style = {{flexDirection:'row' , paddingHorizontal: 30,
+            <View style = {{flexDirection:'row' , paddingHorizontal: 20,
                             justifyContent:'space-between' , alignItems : 'center'}}>
                 <View>
                     <Text style = {{fontSize:16 , fontWeight:'bold'}}>User name</Text>
@@ -36,7 +36,7 @@ const styles  = {
     mainContainer:{
         borderColor: '#000',
         borderWidth: 1,
-        borderRadius: 5,
+        borderRadius: 10,
         margin: 10,
         padding: 10,
     }

@@ -26,6 +26,7 @@ import VisitStore from './Store/VisitStore'
 const Home = createStackNavigator ({
     HomeScreen:HomeScreen,
     PD:ProductDetails,
+    VisitStore:VisitStore,
     Cart:Cart,
     Address:userAddress,
     PlaceOrders:PlaceOrder    

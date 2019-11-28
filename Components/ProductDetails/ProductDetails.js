@@ -19,7 +19,11 @@ class ProductDetails extends Component {
   static navigationOptions={
     header:null
   }
-
+  calPercentage=(price,discountRate)=>{
+    const dis = discountRate / 100;
+    var totalValue = price - (price * dis)
+    return totalValue;
+  }
  
  
 
@@ -67,7 +71,25 @@ class ProductDetails extends Component {
                         <View>
                                   <Text style = {{color:'#000' , fontWeight:'bold',fontStyle:'italic'
                                                  ,fontSize:18}}>{item.NAME}</Text>
-                                  <Text style = {{fontWeight:'bold' , fontSize:16 }}>RS:{item.PRICE}</Text>
+                                  {item.DISCOUNT?
+                                          <View>
+                                             <Text style = {{fontSize:14 ,fontWeight:'400',}}>RS
+                                             <Text style={{ textDecorationLine: 'line-through',fontSize:12 ,fontWeight:'400', padding:5 }}> {item.PRICE} </Text>
+                                            <Text style={{fontSize:14 ,fontWeight:'400', padding:5}}>{this.calPercentage(item.PRICE,item.DISCOUNT)}</Text>
+
+                                            </Text>
+                                    
+                                          </View>
+                                          :
+                                          <View>
+                                            <Text style = {{fontSize:14 ,fontWeight:'400',}}>RS
+                                                <Text style = {{fontSize:14 ,fontWeight:'400',}}> {item.PRICE} </Text>
+                                             </Text>
+                                          
+                                          </View>
+                                          } 
+
+
                                   <Text style = {{fontStyle:'italic',  fontSize:16 ,}}>{item.UOM_NAME}</Text>
                         </View>
                         <View>
@@ -94,7 +116,7 @@ class ProductDetails extends Component {
                               <Text style = {{fontSize:20 , fontWeight:'bold'}}>Related Products</Text>
                             <View style  = {{height:220}} >
                                   
-                                       <RelatedProductSlider catID={item.CATEGORY_ID}/>
+                                       <RelatedProductSlider catID={item.CATEGORY_ID} onPress={this.props.addItemToCart}/>
                                    
                             </View>        
                       </View>
@@ -108,7 +130,7 @@ class ProductDetails extends Component {
                       </View>
                 </View>   
 
-                  <View style={{marginTop:40 ,}}>
+                  <View style={{marginTop:40 ,marginBottom:30}}>
                     <View style = {{ paddingLeft:10}}>
                         <Text style = {{fontSize:20 , fontWeight:'bold'}}>Comments And Reviews</Text>
                        

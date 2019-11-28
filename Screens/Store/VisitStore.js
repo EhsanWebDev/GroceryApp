@@ -9,6 +9,7 @@ import {URL} from '../../utls'
 import Axios from 'axios';
 import Constants from 'expo-constants';
 class VisitStore extends PureComponent {
+  _isMounted = false;
     constructor(props) {
         super(props);
         this.state = { 
@@ -22,7 +23,11 @@ class VisitStore extends PureComponent {
     }
 
     componentDidMount(){
+     this._isMounted = true;
            this.getData()
+    }
+    componentWillUnmount(){
+      this._isMounted= false;
     }
     renderStore=({item})=>{
         return(
@@ -62,7 +67,11 @@ class VisitStore extends PureComponent {
     }
     getData=()=>{
         Axios.get(`${URL}api/StoresApi/ShowStore?id=${this.props.navigation.getParam('itemName')}&limit=`+this.state.limit)
-        .then((res)=>this.setState({data:res.data}))
+        .then((res)=>
+        {
+          if(this._isMounted)
+            this.setState({data:res.data})
+        })
         .catch(e=>console.log(e))
     }
     loadMore = () =>{
