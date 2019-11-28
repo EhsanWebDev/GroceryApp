@@ -119,8 +119,6 @@ class SignUp extends React.Component{
             style={{
               flex: 1,
               justifyContent:'center',
-            
-              
               backgroundColor: "#6ab04c"
             }}
           >

@@ -56,7 +56,8 @@ const Home = createStackNavigator ({
     Maps:Maps,
     UpdateUser:UpdateUser,
     CheckAuth:CheckAuth,
-    MyOrders:MyOrders
+    MyOrders:MyOrders,
+    ForgotPassword:ForgotPassword,
   })
   const TabNavigation= createBottomTabNavigator({
     Home:{screen:Home,

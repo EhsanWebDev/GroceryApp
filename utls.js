@@ -1,5 +1,5 @@
 import {AsyncStorage} from 'react-native'
-export const URL = `http://172.16.132.78/`;
+export const URL = `http://172.16.130.2/`;
 
 
 export const getTokens=async (cb)=>{

@@ -1,122 +1,89 @@
 import React,{Component} from 'react';
 import { View,Text,StyleSheet,ActivityIndicator } from 'react-native';
 import { Input } from 'react-native-elements';
+import {validateAll,validations} from 'indicative/validator'
+import {URL} from '../../utls'
+import axios from 'axios'
 import {Button,Icon} from 'native-base'
 import ValidationRules from './Rules'
 import {connect} from 'react-redux'
 import {updateUser} from '../../store/actions'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 class UpdateProfile extends Component {
     constructor(props) {
         super(props);
         this.state = {  
-            hasErrors:false,
             loading:false,
-            form:{
-                email:{
-                    value:"",
-                    valid:true,
-                    
-                    rules:{
-                       
-                        isEmail:true
-                    }
-    
-                },
-                mobileNumber:{
-                    value:"",
-                    valid:true,
-                 
-                    rules:{
-                        
-                        isNumber:true,
-                    }
-                },
-            }
+            email:'',
+            mobile:'',
+            data:[],
+            emailAvailable:2,
+            errors:{},
        
         };
     }
-    updateInput = (name,value)=>{
-        this.setState({
-            hasErrors:false
-        });
-
-        let formCopy = this.state.form;
-        formCopy[name].value= value;
-
-        let rules = formCopy[name].rules
-        let valid = ValidationRules(value,rules,formCopy)
-       formCopy[name].valid=valid;
-
-        this.setState({
-            form:formCopy
-        })
-    }
-    formHasErros =()=>(
-        this.state.hasErrors ? 
-            <View style={styles.container}>
-
-                <Text style={styles.label}>
-                       Please,Check your info.
-                </Text>
-            </View>
-
-        :null
-    )
-
-    submitForm=()=>{
-        let formToSubmit={};
-        let isFormValid=true;
-       const formCopy=this.state.form;
-        for (let key in formCopy){
-   
-        isFormValid = isFormValid && formCopy[key].valid;
-        formToSubmit[key] = formCopy[key].value;
-   
-            }
-            if(isFormValid){
-                var currentdate = new Date(); 
-                var datetime = currentdate.getFullYear()   + "/"
-                        + (currentdate.getMonth()+1)  + "/" 
-                        + currentdate.getDate()
-
-
-                formToSubmit.id = this.props.user.auth.id;
-                formToSubmit.name = this.props.user.auth.name;
-                formToSubmit.created = datetime;
-                formToSubmit.updated = datetime;
-               formToSubmit.password = this.props.user.auth.password;
-               
-               this.props.dispatch(updateUser(formToSubmit)).then(()=>{
-                        this.setState({loading:true})
-                        
-               })
-
-
-            }else{
-                this.setState({
-                    hasErrors:true
-                })
-            }
-            
-                
-            
  
-}
 componentDidMount(){
     this.set();
 }
-
         set =()=>{
-            let formCopy = this.state.form;
-                formCopy["email"].value= this.props.user.auth.email;
-                formCopy["mobileNumber"].value= this.props.user.auth.contact;
-
+            let   email= this.props.user.auth.EMAIL;
+            let    mobile= this.props.user.auth.CONTACT;
                 this.setState({
-                    form:formCopy
+                    email:email,
+                    mobile:mobile,
                 })
-
-
         }
+        registerUser= async(data) =>{
+            const rules={
+                email: "required|email|regex:"+validations.regex(['^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$']),
+                mobile:'required|string|max:11|min:11'
+            }
+            const messages={
+                required:(field)=>`${field} is required`,
+                'email.regex':'The Email Syntax is Wrong',
+                'email.email':'The Email Syntax is Wrong',
+                'mobile.max':'Mobile Number must be of 11 Digits',
+                'mobile.min':'Mobile Number must be of 11 Digits',
+            }
+
+        try{
+                await validateAll(data,rules,messages).then(()=>{
+                   this.setState({errors:{}, loading:true})
+
+        axios.get(`${URL}api/UsersApi/IsEmailExist_F?EMAIL=`+this.state.email)
+                        .then((res)=>{
+                            this.setState({emailAvailable:res.data,loading:false})
+                        }).catch((e)=>console.log(e))
+                  
+                })
+        }catch(errors){
+                const formattedErrors={};
+                errors.forEach(error=>formattedErrors[error.field] = error.message);
+                this.setState({
+                    errors:formattedErrors
+                })
+        }      
+    }
+
+    signUpUser=(data)=>{
+       // this.setState({loading:true})
+        var currentdate = new Date(); 
+        var datetime = currentdate.getFullYear()   + "/"
+                + (currentdate.getMonth()+1)  + "/" 
+                + currentdate.getDate()
+
+           data.created = datetime;
+           data.updated = datetime;
+           data.name = this.props.
+
+           console.log(data)
+
+        /*   this.props.dispatch(signUp(data)).then(()=>{
+               this.setState({loading:false})
+               this.props.navigation.navigate('VerifyEmail')
+           })*/
+    }
 
     render() {
         if(this.state.loading){
@@ -132,27 +99,70 @@ componentDidMount(){
 
                 <Input
                     placeholder='Email Address'
-                    onChangeText ={value => this.updateInput("email",value)}
+                    onChangeText={value => this.setState({ email: value })}
+                    value={this.state.email}
                     autoCapitalize="none"
-                    value={this.state.form.email.value}
+                   
                 />
+                     {this.state.errors["email"] && (
+              <Text style={{ fontSize: 16, fontWeight: "600" }}>
+                {this.state.errors["email"]}
+              </Text>
+            )}
+
+            {this.state.emailAvailable === 1 ? (
+              <Text
+                style={{ fontSize: 16, color: "#fbc531", fontWeight: "500" }}
+              >
+                This Email is Already Registered
+              </Text>
+            ) : null}
 
                 <Input
                     placeholder='Contact Number'
-                    onChangeText ={value => this.updateInput("mobileNumber",value)}
+                    onChangeText={value => this.setState({ mobile: value })}
+                    value={this.state.mobile}
                     autoCapitalize="none"
-                    value={this.state.form.mobileNumber.value}
+                    
                 />
-                 
 
-{this.formHasErros()}
+                  {this.state.errors["mobile"] && (
+                          <Text style={{ fontSize: 16, fontWeight: "600" }}>
+                          {this.state.errors["mobile"]}
+                         </Text>
+                  )}
 
-                <Button block success style={{marginTop:10}} iconRight
-                      onPress={this.submitForm}
-                         >
-                         <Icon name='save' style={{color:'#fff'}}/>
-                   <Text style={{fontSize:16,fontWeight:'bold',color:'#fff'}}>Save Changes</Text>                         
+            {this.state.emailAvailable === 0 ? (
+              <View style={{ width: "100%", marginTop: 10,padding:10 }}>
+                <Button
+                  block success   style={{marginTop:10}} iconRight
+                  onPress={() => this.signUpUser(this.state)}
+                  
+                >
+                <Icon name='save' style={{color:'#fff'}}/>
+                <Text style={{fontSize:16,fontWeight:'bold',color:'#fff'}}>Save Changes</Text>
+
                 </Button>
+                
+              </View>
+            ) : (
+              <View style={{ width: "100%", marginTop: 10,padding:10 }}>
+                <Button
+                    block warning   style={{marginTop:10}} iconRight
+                  onPress={() => this.registerUser(this.state)}
+                > 
+                 <Icon name='save' style={{color:'#fff'}}/>
+                <Text style={{fontSize:16,fontWeight:'bold',color:'#fff'}}>Check availability </Text>
+                </Button>
+
+              </View>
+            )}
+    
+            <TouchableOpacity onPress={()=>this.props.navigation.navigate('ForgotPassword')}
+                            style={{justifyContent:'center',alignItems:'center'}}
+            >
+                <Text style={{fontWeight:'bold',fontSize:14,color:'#2980b9'}}>Change Password?</Text>
+            </TouchableOpacity>
             </View>
         );
           }
