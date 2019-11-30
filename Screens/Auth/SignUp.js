@@ -6,6 +6,8 @@ import axios from 'axios'
 import {signUp, signIn} from '../../store/actions'
 import {connect} from 'react-redux'
 import {URL} from '../../utls'
+import Constants from 'expo-constants';
+import Logo from './LoginLogo'
 import RNPasswordStrengthMeter from 'react-native-password-strength-meter';
 class SignUp extends React.Component{
         constructor(){
@@ -114,49 +116,43 @@ class SignUp extends React.Component{
           }else{
         
         return (
-          <KeyboardAvoidingView
-            behavior="padding"
+
+          <View style={{flex:1}}>
+     
+
+<KeyboardAvoidingView
+            behavior="height"
             style={{
               flex: 1,
               justifyContent:'center',
-              backgroundColor: "#6ab04c"
+              backgroundColor: "#ddd"
             }}
           >
-            <Text
-              style={{
-                borderColor: "#fff",
-                borderWidth: 1,
-                width: "100%",
-                textAlign: "center",
-                justifyContent:'flex-start',
-                alignItems:'flex-start',
-                backgroundColor: "#000",
-                color: "#fff",
-                fontSize: 18,
-                fontWeight:'bold',
-                padding: 15
-              }}
-            >
-              SignUp Page
-            </Text>
+            <Logo/>
+    
             <Hoshi
               style={styles.textInput}
               label="Username"
               inputPadding={14}
-              borderHeight={2}
-              labelStyle={{ color: "#fff", fontSize: 18, fontWeight: "bold" }}
-              inputStyle={{ color: "#fff" }}
+              borderColor={'#27ae60'}
+              
               onChangeText={value => this.setState({ username: value })}
               value={this.state.username}
             />
             {this.state.errors["username"] && (
-              <Text style={{ fontSize: 16, fontWeight: "600" }}>
+              <Text style={{
+                fontSize:16,
+                                    borderWidth:1,borderColor:'#000',padding:5,
+                                    borderRadius:20,color:'red',alignSelf:'center'
+               }}>
                 {this.state.errors["username"]}
               </Text>
             )}
             {this.state.data.length > 0 ? (
               <Text
-                style={{ fontSize: 16, color: "#fbc531", fontWeight: "500" }}
+                style={{ fontSize:16,
+                  borderWidth:1,borderColor:'#000',padding:5,
+                  borderRadius:20,color:'red',alignSelf:'center' }}
               >
                 This Username is Already Taken
               </Text>
@@ -165,21 +161,24 @@ class SignUp extends React.Component{
               style={styles.textInput}
               label="Email"
               keyboardType="email-address"
-              borderHeight={2}
-              labelStyle={{ color: "#fff", fontSize: 18, fontWeight: "bold" }}
-              inputStyle={{ color: "#fff" }}
+              
+              borderColor={'#27ae60'}
               onChangeText={value => this.setState({ email: value })}
               value={this.state.email}
             />
             {this.state.errors["email"] && (
-              <Text style={{ fontSize: 16, fontWeight: "600" }}>
+              <Text style={{  fontSize:16,
+                borderWidth:1,borderColor:'#000',padding:5,
+                borderRadius:20,color:'red',alignSelf:'center' }}>
                 {this.state.errors["email"]}
               </Text>
             )}
 
             {this.state.emailAvailable === 1 ? (
               <Text
-                style={{ fontSize: 16, color: "#fbc531", fontWeight: "500" }}
+                style={{  fontSize:16,
+                  borderWidth:1,borderColor:'#000',padding:5,
+                  borderRadius:20,color:'red',alignSelf:'center'}}
               >
                 This Email is Already Registered
               </Text>
@@ -188,21 +187,23 @@ class SignUp extends React.Component{
             <Hoshi
               style={styles.textInput}
               label="Mobile Number"
-              borderHeight={2}
-              labelStyle={{ color: "#fff", fontSize: 18, fontWeight: "bold" }}
-              inputStyle={{ color: "#fff" }}
+            
+              borderColor={'#27ae60'}
               onChangeText={value => this.setState({ mobile: value })}
               value={this.state.mobile}
               keyboardType="phone-pad"
             />
             {this.state.errors["mobile"] && (
-              <Text style={{ fontSize: 16, fontWeight: "600" }}>
+              <Text style={{ fontSize:16,
+                borderWidth:1,borderColor:'#000',padding:5,
+                borderRadius:20,color:'red',alignSelf:'center' }}>
                 {this.state.errors["mobile"]}
               </Text>
             )}
         
             <RNPasswordStrengthMeter
-              containerWrapperStyle={{color:'#fff'}}
+              inputStyle={{color:'#000'}}
+              placeholderStyle= {{fontWeight:'bold'}}
               onChangeText={value => this.setState({ password: value })}
               meterType="bar"
               defaultPassword={this.state.password}
@@ -210,7 +211,9 @@ class SignUp extends React.Component{
         
             
             {this.state.errors["password"] && (
-              <Text style={{ fontSize: 16, fontWeight: "600" }}>
+              <Text style={{ fontSize:16,
+                borderWidth:1,borderColor:'#000',padding:5,
+                borderRadius:20,color:'red',alignSelf:'center'}}>
                 {this.state.errors["password"]}
               </Text>
             )}
@@ -218,15 +221,14 @@ class SignUp extends React.Component{
               style={styles.textInput}
               label="Confirm Password"
               inputPadding={14}
-              borderHeight={2}
-              labelStyle={{ color: "#fff", fontSize: 18, fontWeight: "bold" }}
-              inputStyle={{ color: "#fff" }}
+              
+              borderColor={'#27ae60'}
               onChangeText={password_confirmation =>
                 this.setState({ password_confirmation })
               }
               value={this.state.password_confirmation}
               secureTextEntry
-              autoCapitalize="none"
+              
             />
 
             {this.state.emailAvailable === 0 && this.state.data === 0 ? (
@@ -234,7 +236,7 @@ class SignUp extends React.Component{
                 <Button
                   title="SignUp"
                   onPress={() => this.signUpUser(this.state)}
-                  color="#000"
+                  color="seagreen"
                 />
               </View>
             ) : (
@@ -247,6 +249,9 @@ class SignUp extends React.Component{
               </View>
             )}
           </KeyboardAvoidingView>
+
+          </View>
+        
         );
     }}
 }
