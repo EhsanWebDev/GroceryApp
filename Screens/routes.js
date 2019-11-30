@@ -106,7 +106,7 @@ const Home = createStackNavigator ({
             Home:TabNavigation,
             Login:Auth,
         },{
-            initialRouteName:'Login'
+            initialRouteName:'Home'
         })
         ) }
     

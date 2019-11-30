@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { View, Text,FlatList,Image,TouchableOpacity, ActivityIndicator } from 'react-native';
 import {connect} from 'react-redux'
-import {Header, Body, Right, Button, Title ,Left, Icon} from 'native-base'
+import {Header, Body, Right, Button, Title ,Left, Icon,Segment, Content,Container,} from 'native-base'
 import {bindActionCreators} from 'redux'
 import {addToCart} from '../../store/actions'
 import CartIcon from '../ShoppingCartIcon'
@@ -52,7 +52,7 @@ class VisitStore extends PureComponent {
                            padding:5,
                            borderRadius:5,
                            margin:10
-                      }} > 
+                      }}  onPress={()=>this.props.addItemToCart({id:item.ID,name:item.NAME,price:item.PRICE,img:item.IMAGE1, units:1})} > 
                               <Text style = {{
                                     fontSize:16,
                                     fontWeight:'200',
@@ -66,7 +66,8 @@ class VisitStore extends PureComponent {
         )
     }
     getData=()=>{
-        Axios.get(`${URL}api/StoresApi/ShowStore?id=${this.props.navigation.getParam('itemName')}&limit=`+this.state.limit)
+      const item = this.props.navigation.getParam('item');
+        Axios.get(`${URL}api/StoresApi/ShowStore?id=${item.STORE_ID}&limit=`+this.state.limit)
         .then((res)=>
         {
           if(this._isMounted)
@@ -83,43 +84,47 @@ class VisitStore extends PureComponent {
         
     }
     render() {
+
+      const item = this.props.navigation.getParam('item');
        
         return (
-            <View style={{flex:1,marginTop:Constants.statusBarHeight}}>
-  <Header style = {{backgroundColor:'seagreen'}}>
-                        <Left>
-                          <Button transparent onPress = {() => this.props.navigation.goBack() }>
-                            <Icon name='arrow-back' />
-                          </Button>
-                        </Left>
-                        <Body>
-                          <Title>Store Details</Title>
-                        </Body>
-                        <Right>
-                                  <CartIcon />
-                        </Right>
+          <View style={{ flex: 1, marginTop: Constants.statusBarHeight }}>
+            <Header  style={{ backgroundColor: "seagreen" }}>
+              <Left>
+                <Button
+                  transparent
+                  onPress={() => this.props.navigation.goBack()}
+                >
+                  <Icon name="arrow-back" />
+                </Button>
+              </Left>
+              <Body>
+                <Title>{item.STORE} </Title>
+                <Text style={{color:'#fff'}}>Lahore</Text>
+              </Body>
+              <Right>
+                <CartIcon />
+              </Right>
+            </Header>
+            
+           <Header style={{ backgroundColor: "seagreen" }}>
+                <Title style={{justifyContent:'center',alignItems:'center',textAlign:'center',textAlignVertical:'center'}}>All Products</Title>
+           </Header>
+              <FlatList
+              data={this.state.data}
+              renderItem={this.renderStore}
+              ListEmptyComponent={<ActivityIndicator size="large" />}
+              extraData={this.state}
+              keyExtractor={item => item.ID.toString()}
+              onEndReached={this.loadMore}
+              onEndReachedThreshold={0.3}
+              ListFooterComponent={<ActivityIndicator size="large" />}
+              numColumns={2}
+            />
+            
 
-                </Header>
-                
-    <FlatList
-               
-                    data={this.state.data}
-                    renderItem={this.renderStore}
-                    ListEmptyComponent={
-                        <ActivityIndicator size="large" />
-                    }
-                      extraData={this.state}
-                    keyExtractor = { (item) => item.ID.toString() }
-                    onEndReached={this.loadMore}
-                    onEndReachedThreshold={0.3}
-                    ListFooterComponent={
-                        <ActivityIndicator size="large" />
-                    }
-                    numColumns={2}
-                    />  
-
-            </View>
-       
+         
+          </View>
         );
     }
 }
@@ -131,9 +136,9 @@ const mapStateToProps=(state)=>{
   }
   
   const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({addToCart},dispatch)
-        
-    
+    return {
+        addItemToCart: (product) => dispatch({ type: 'ADD_TO_CART', payload: product })
+    }
   }
 
 export default connect(mapStateToProps,mapDispatchToProps) (VisitStore);

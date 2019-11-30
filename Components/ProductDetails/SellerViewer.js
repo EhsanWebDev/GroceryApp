@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import StarRating from 'react-native-star-rating'
 
 class SellerViewer extends Component {
   constructor(props) {
@@ -14,6 +15,15 @@ class SellerViewer extends Component {
           <View style={styles.rowContainer}>
                 <View>
                     <Text style={{fontSize:16,fontWeight:'bold'}}> {this.props.item.STORE} </Text>
+                    <View style={{alignItems:'flex-start',justifyContent:'center'}}>
+                    <StarRating 
+                     disabled = {true}
+                     starSize = {16}
+                     maxStars = {5}
+                     fullStarColor = 'orange'
+                     rating = {4.5}
+                     emptyStarColor = 'orange' />
+                </View>
                 </View>
                 <View>
                     <TouchableOpacity style={{borderColor:'red',borderWidth:1,padding:5}}>
@@ -43,7 +53,7 @@ class SellerViewer extends Component {
           
           <View style={{justifyContent:'center', alignItems:'center', marginTop:10}}>
               <TouchableOpacity onPress={()=>this.props.navigation.navigate('VisitStore',{
-                  itemName:this.props.item.STORE_ID
+                  item:this.props.item
                   })}>
                   <Text style={{color:'red', fontSize:16}}>Visit Store</Text>
             </TouchableOpacity>

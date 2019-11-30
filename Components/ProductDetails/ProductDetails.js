@@ -131,13 +131,14 @@ class ProductDetails extends Component {
                 </View>   
 
                   <View style={{marginTop:40 ,marginBottom:30}}>
-                    <View style = {{ paddingLeft:10}}>
+                    <View style = {{ paddingHorizontal:10,flexDirection:'row',justifyContent: 'space-between',}}>
                         <Text style = {{fontSize:20 , fontWeight:'bold'}}>Comments And Reviews</Text>
-                       
+                        <TouchableOpacity style={{borderColor:'red',borderWidth:1,padding:5}}>
+                           <Text style={{color:'red', fontSize:18}}>See All</Text>
+                        </TouchableOpacity>               
                     </View>
                     <Review userRating = {4}></Review>
                     <Review userRating = {5}></Review>
-                    <Review userRating = {1}></Review>
                   </View>
         
         </ScrollView>
