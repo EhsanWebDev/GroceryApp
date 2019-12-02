@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View,Text } from 'react-native';
+import { View,Text,ScrollView } from 'react-native';
 import {connect} from 'react-redux';
 import {getOrders} from '../../store/actions'
+
 
 class MyOrders extends Component {
     constructor(props) {
@@ -14,14 +15,38 @@ class MyOrders extends Component {
 
     componentDidMount(){
 
-        this.props.dispatch(getOrders(this.props.orders.id))
+        this.props.dispatch(getOrders(this.props.user.auth.ID))
         
         
     }
     renderOrders=(data)=>{
         return data.map((item)=>
-        <View key={item.ID}>
-                <Text> {item.CUSTOMERNAME} </Text>
+        <View key={item.ID} style={{borderColor:'#000',borderWidth:1,padding:10,marginBottom:5}}>
+            <Text style={{color:'#8e44ad',fontSize:14}}>Order Tracking ID: {item.ID} </Text>
+            <Text style={{fontSize:18,fontWeight:'500'}}> Ordered By:  {item.CUSTOMERNAME} </Text>
+                 <View style={{marginTop:10}}>
+                        <Text style={{fontSize:16,fontWeight:'400',marginBottom:10}}>
+                            Address: {item.STREETADDRESS},{item.CITY}
+                        </Text>
+                        <Text style={{fontSize:16,fontWeight:'400',marginBottom:10}}>
+                            Mobile Number: {item.PHONE}
+                        </Text>
+
+                        <Text style={{fontSize:16,fontWeight:'400',marginBottom:10}}>
+                            Order Amount: RS {item.AMOUNT}
+                        </Text>
+                        <Text>Order Status :
+                        {(() => {
+        switch (item.ORDERSTATUS) {
+          case 0:   return  <Text style={{color:'#d35400',fontSize:16,fontWeight:'bold'}}> Order Placed </Text>;
+          case 1: return  <Text style={{color:'#f1c40f',fontSize:16,fontWeight:'bold'}}> Order In-Progress </Text>;
+          case 2:  return  <Text style={{color:'#2ecc71',fontSize:16,fontWeight:'bold'}}> Order Delivered </Text>;
+          default:      return "#FFFFFF";
+        }
+      })()}
+ 
+                         </Text>
+                </View>
         </View>
         )
     }
@@ -29,27 +54,10 @@ class MyOrders extends Component {
         return (
             <View>
                 {this.props.orders?
-                <View style={{borderColor:'#000',borderWidth:1,padding:10,}}>
-                    <Text style={{fontSize:16,fontStyle:'italic',fontWeight:'500'}}> Ordered By {this.props.orders.CUSTOMERNAME} </Text>
-                    <View style={{marginTop:10}}>
-                        <Text style={{fontSize:16,fontWeight:'400',marginBottom:10}}>
-                            Address: {this.props.orders.STREETADDRESS},{this.props.orders.CITY}
-                        </Text>
-                        <Text style={{fontSize:16,fontWeight:'400',marginBottom:10}}>
-                            Mobile Number: {this.props.orders.PHONE}
-                        </Text>
+                <ScrollView>
+                    {this.renderOrders(this.props.orders)}
 
-                        <Text style={{fontSize:16,fontWeight:'600',marginBottom:10}}>
-                            Order Amount: {this.props.orders.AMOUNT}
-                        </Text>
-                        <Text>Order Status :{this.props.orders.ORDERSTATUS === 'Order Placed' ? <Text style={{color:'#d35400',fontSize:16,fontWeight:'bold'}}> {this.props.orders.ORDERSTATUS} </Text> : null }  </Text>
-                             
-                        
-
-                        
-                    </View>
-
-                </View>
+                </ScrollView>
                 
                 :null}
             </View>

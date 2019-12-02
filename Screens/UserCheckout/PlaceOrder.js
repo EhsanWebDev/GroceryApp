@@ -44,9 +44,7 @@ class PlaceOrder extends React.Component{
         data.total_quantity = this.getTotalQuantity(quantities);
         data.total_price = this.calPrice();
         data.amountAfterDiscount = this.calPrice();
-        data.customer = this.props.address.name;
-        data.mobile = this.props.address.mobile;
-        data.street_address = this.props.address.address;
+        data.shippingID= this.props.address.address.id
         data.orderStatus=0;
         data.totalShippingCharges= this.calPrice() + 20;
         data.CreatedAt=datetime;
@@ -119,9 +117,14 @@ class PlaceOrder extends React.Component{
                  {this.props.cartItems.length > 0 ?
                <View style={{ marginTop:Constants.statusBarHeight+5}}>
                     <View>
-                    <Text style={{fontSize:18,fontStyle:'italic',fontWeight:'bold'
-                            ,borderColor:'#000',borderRadius:15,borderWidth:1,
-                            padding:10,width:'100%',textAlign:'center',
+                        <Text style={{borderWidth:2,borderColor:'#d35400',padding:10,
+                                fontSize:18,width:'100%',fontStyle:'italic',textAlign:'center',
+                                alignSelf:'center'}}>
+                          Shipping Address:  {this.props.address.address.address} {this.props.address.address.city}
+                        </Text>
+                    <Text style={{fontSize:16,fontStyle:'italic',fontWeight:'bold'
+                            ,borderBottomColor:'#000',borderBottomWidth:1,
+                            padding:5,width:'100%',textAlign:'center',
                             
                         }}>Your Order Summery</Text> 
 
@@ -140,7 +143,7 @@ class PlaceOrder extends React.Component{
                                    color="seagreen" 
                                    style={{color:'#fff',fontSize:18,fontWeight:'600'}}
                                     >
-                               
+
                            </Button>
                         </View>
                             
@@ -177,7 +180,7 @@ const mapStateToProps=(state)=>{
     console.log(state.order)
     return{
         cartItems:state.cart,
-        address:state.order
+        address:state.address
     }
 }
 

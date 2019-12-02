@@ -23,12 +23,14 @@ import ForgotPassword from './Auth/FogotPassword'
 import MyOrders from './UserScreens/MyOrders'
 import { Icon } from 'native-base';
 import VisitStore from './Store/VisitStore'
+import addAddress from './UserCheckout/AddNewAddress'
 const Home = createStackNavigator ({
     HomeScreen:HomeScreen,
     PD:ProductDetails,
     VisitStore:VisitStore,
     Cart:Cart,
     Address:userAddress,
+    addAddress:addAddress,
     PlaceOrders:PlaceOrder    
        
   })

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-
+import { Container, Header, Content, Item,Button } from 'native-base';
+import { Input } from 'react-native-elements';
 class OrderSummary extends Component {
     constructor(props) {
         super(props);
@@ -33,13 +34,22 @@ class OrderSummary extends Component {
     render() {
         return (
             <View>
-                <Text style={{fontWeight:'600',fontSize:18}}>
-                            Products List</Text>
+                <Text style={{fontWeight:'600',fontSize:20,marginBottom:5}}>
+                            PRODUCTS LIST</Text>
                 
                 {this.props.items?this.renderProdList(this.props.items):null}
-                <Text style={{fontWeight:'600',fontSize:18,marginVertical:10}}>Total Price =    {this.calPrice(this.props.items)} </Text>
-                <Text style={{fontWeight:'600',fontSize:18,marginVertical:10}}>Discount =    0% </Text>
-                <Text style={{fontWeight:'600',fontSize:18,marginVertical:10}}>Grand Total =    {this.calPrice(this.props.items)} </Text>
+                <Text style={{fontWeight:'600',fontSize:18,marginVertical:5}}>Total Price =    {this.calPrice(this.props.items)} </Text>
+                <View style={{flexDirection:'row',justifyContent:'space-around',paddingHorizontal:5}}>
+                    
+                <Input
+                    placeholder='ENTER PROMO CODE'
+                />
+                 <Button success>
+                     <Text style={{fontWeight:'600',color:'#fff',padding:5,fontSize:16}}>CHECK</Text>
+                 </Button>
+                </View>
+                <Text style={{fontSize:16,marginVertical:5}}>Discount =    0% </Text>
+                <Text style={{fontWeight:'600',fontSize:18,marginVertical:5,borderTopColor:'#ddd',paddingVertical:10,borderTopWidth:2}}>Grand Total =    {this.calPrice(this.props.items)} </Text>
             </View>
         );
     }

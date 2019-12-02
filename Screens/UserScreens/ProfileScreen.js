@@ -133,13 +133,7 @@ class ProfileScreen extends Component {
                                     <Icon name = "chatboxes"style ={{color:"white", fontSize:24, marginRight:10}}></Icon>
                                     <Text style = {{ color:'white', fontSize:20}}>Live Chat</Text>
                                 </Button>
-                                <Button iconLeft block warning style = {{flex:1}}>
-                                    <Icon name = "text" style ={{color:"black", fontSize:24, marginRight:10}}></Icon>
-                                    <Text style = {{textAlign:'center' , color:'black', fontSize:20}}>Messages</Text>
-                                    <Badge danger style ={{marginLeft:30, padding:10}}>
-                                        <Text style = {{color:'white'}}>2</Text>
-                                    </Badge>
-                                </Button>
+                            
                          </View>   
                          
                          <View>
@@ -229,9 +223,10 @@ class ProfileScreen extends Component {
                       
                     <Button
                        
-                      transparent
+                       block success
+                       style={{padding:10}}
                         onPress={()=>this.props.navigation.navigate('Login')}
-                      ><Text>Login / Register</Text></Button>
+                      ><Text style={{fontSize:16,fontWeight:'600',fontStyle:'italic',color:'#f7f7f7'}}>Login / Register</Text></Button>
                       </View>
                 </View>
               

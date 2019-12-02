@@ -70,10 +70,7 @@ export function placeOrder(data){
          Quantity:data.quantities,
          TotalQuantity:data.total_quantity,
          OrderStatus:data.orderStatus,
-         CUSTOMER:data.customer,
-         CONTACT:data.mobile,
-         STREETADDRESS:data.street_address,
-         city_id:6,
+         ShippingID:data.shippingID,
          Amount:data.total_price,
          AmountAfterDiscount:data.amountAfterDiscount,
          TotalShippingCharges:data.totalShippingCharges,
@@ -91,20 +88,36 @@ export function placeOrder(data){
         payload:req
     }
 }
-export function userAddressAct(data){
-    const myData={};
-    myData.name = data.name
-    myData.mobile = data.mobile
-    myData.address=data.address
-
+export function addAddress(data){
+   const req= axios({
+        url:`${URL}api/OrdersApi/AddAddress`,
+        method:'POST',
+        data:JSON.stringify({
+           STREETADDRESS:data.address,
+           PHONE:data.mobile,
+           CUSTOMERNAME:data.name,
+           CITY_ID:6,
+           USER_ID:data.id
+           
+        }),
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+          }
+    })
     return{
-        type:'ORDER_ADDRESS',
-        payload:myData
+        type:'ADD_ADDRESS',
+        payload:req
+    }
+}
+export function thisAddress(data){
+    return{
+        type:'CHOOSE_ADDRESS',
+        payload:data
     }
 }
 
 export function getOrders(id){
-        const req = axios.get(`${URL}api/OrdersApi/OrderInformation?id=`+id)
+        const req = axios.get(`${URL}api/OrdersApi/AllOrderInformation?id=`+id)
         .then(res=>res.data).catch((e)=>{
             console.log(e)
         })

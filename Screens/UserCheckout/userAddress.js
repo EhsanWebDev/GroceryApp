@@ -1,33 +1,28 @@
 import React, { Component } from 'react';
 import Constants from 'expo-constants';
-import { Input } from 'react-native-elements';
-import {  Icon, Button, Form, Item, Picker } from 'native-base';
-import { Text,View,ActivityIndicator,StyleSheet} from 'react-native';
+import { CheckBox } from 'react-native-elements'
+import { Container, Header, Content, ListItem, Button, Radio, Right, Left } from 'native-base';
+
+import { Text,View,ActivityIndicator,StyleSheet,ScrollView} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import {connect} from 'react-redux'
-import {autoSignIn, userAddressAct} from '../../store/actions'
-import {setTokens,getTokens} from '../../utls'
-
+import {autoSignIn,thisAddress} from '../../store/actions'
+import {setTokens,getTokens,URL} from '../../utls'
 import {validateAll,validations} from 'indicative/validator'
-
+import Axios from 'axios';
 class userAddress extends Component {
   constructor(props) {
     super(props);
     this.state = {
         isauth:false,
         loading:true,
-        selected2: undefined,
-        name:'',
-        mobile:'',
-        address:'',
-        errors:{}
-        
-      
+        data:[],
+        value: false,
     };
   }
   static navigationOptions={
   
-     headerTitle:'Enter Your Shipping Details'
+     headerTitle:'Manage Addresses'
   }
 
   manageState=(isauth,loading)=>{
@@ -46,6 +41,8 @@ class userAddress extends Component {
         this.props.dispatch(autoSignIn(val[0][1])).then(()=>{
           !this.props.user.auth?
           this.manageState(false,false):
+          Axios.get(`${URL}api/OrdersApi/AllAddresses?id=`+this.props.user.auth.ID)
+          .then((res)=>this.setState({data:res.data})).catch(e=>console.log(e))
           setTokens(this.props.user.auth.ID, ()=>{
             this.manageState(true,false)
           })
@@ -53,51 +50,37 @@ class userAddress extends Component {
       }
     })
   } 
-
-
-  registerUser= async(data) =>{
-
-    const rules={
-        name:'required|string',
-        mobile:'required|string|max:11|min:11',
-        address:'required|string|max:100'
+  filterData=( event, id,add,city)=>{
+      
+      const data={};
+      data.id=id;
+      data.address=add;
+      data.city=city
+     // console.log(data)  
+     this.props.dispatch(thisAddress(data));
+      this.props.navigation.navigate('PlaceOrders')
     }
 
-    const messages={
-        required:(field)=>`${field} is required`,
-        'mobile.max':'Mobile Number must be of 11 Digits',
-        'mobile.min':'Mobile Number must be of 11 Digits',
-        'address.max':'Max limit reached'
-
-        
-    }
-
-try{
-        await validateAll(data,rules,messages).then(()=>{
-           this.setState({errors:{},})
-           this.props.dispatch(userAddressAct(data))
-           this.props.navigation.navigate('PlaceOrders') 
-           })   
-        }catch(errors){
-        const formattedErrors={};
-        errors.forEach(error=>formattedErrors[error.field] = error.message);
-        this.setState({
-            errors:formattedErrors
-        })
-}
-
-}
-
-
-submitForm=(data)=>{
-    
-  this.props.dispatch(userAddressAct(data))
-  this.props.navigation.navigate('PlaceOrders') 
-}
-
-
-
-
+  renderAddress=(data)=>{
+    let i = 0;
+    return data.map((item)=>(
+      <View key={item.ID} style={{borderWidth:2,borderColor:'#ddd',padding:10}}>
+        <View style={{padding:10}}>
+          <Text style={{fontSize:18,textAlign:'center',alignSelf:'center',padding:5}}>Street Address: {item.STREETADDRESS} </Text>
+          <Text style={{fontSize:16,textAlign:'center',alignSelf:'center',padding:5}}>
+              Phone Nummber: {item.PHONE}
+          </Text>
+        </View>
+            
+            
+            <Button small onPress={(event) => this.filterData(event, item.ID,item.STREETADDRESS,item.CITY)}
+                    style={{alignItems:'center',justifyContent:'center'}}
+              >
+              <Text style={{fontSize:16,fontWeight:'600',color:'#fff'}}>Use This Address</Text>
+            </Button>
+      </View>
+    ))
+  }
   render() {
 
 
@@ -110,61 +93,17 @@ submitForm=(data)=>{
       }
       else{
         return(
-          <View>
+          <View style={{flex:1}}>
               {this.state.isauth?
-                   <View style={{marginTop:Constants.statusBarHeight,
-                                 padding:10 
-                                  }}>
-                    <Input
-                   placeholder='Reciever Name'
-                   onChangeText={(value)=>this.setState({name:value})}
-                   value={this.state.name}
-                 />
-                 {this.state.errors['name'] && 
-                   <Text style={{fontSize:16,color:'#c23616',fontWeight:'500',textAlign:'center'}}>{this.state.errors['name']}</Text>
-                   }
-                   <Input
-                   placeholder='Contact Number'
-                   keyboardType="phone-pad"
-                   onChangeText={(value)=>this.setState({mobile:value})}
-                   value={this.state.mobile}
-                 />
-                  {this.state.errors['mobile'] && 
-                   <Text style={{fontSize:16,color:'#c23616',fontWeight:'500',textAlign:'center'}}>{this.state.errors['mobile']}</Text>
-                   }
-                   <Input
-                   placeholder='Your Shipping Address'
-                   onChangeText={value=>this.setState({address:value})}
-                   value={this.state.address}
-                 />
-                  {this.state.errors['address'] && 
-                   <Text style={{fontSize:16,color:'#c23616',fontWeight:'500',textAlign:'center'}}>{this.state.errors['address']}</Text>
-                   }
-
-          <Form>
-            <Item picker>
-              <Picker
-                mode="dropdown"
-                iosIcon={<Icon name="arrow-down" />}
-                style={{ width: undefined }}
-                placeholder="Select your City"
-                placeholderStyle={{ color: "#bfc6ea" }}
-                placeholderIconColor="#007aff"
-                selectedValue={this.state.selected2}
-              >
-                <Picker.Item label="Lahore" value="key0" />
-              
-              </Picker>
-            </Item>
-          </Form>
-          <View style={{justifyContent:'flex-end'}}>
-            <Button block success onPress={()=> this.registerUser(this.state)}>
-            <Text style={{color:'#fff',fontSize:18}}>Proceed</Text>
-          </Button>
-           
-            </View>
-         
-              </View>
+                  <View style={{flex:1}}>
+                    <Button success block onPress={()=>this.props.navigation.navigate('addAddress')}>
+                      <Text style={{fontSize:18,color:'#fff',fontWeight:'bold'}}>ADD NEW ADDRESS</Text>
+                    </Button>
+                    <ScrollView >
+                      {this.state.data.length > 0 ? this.renderAddress(this.state.data):null}
+          
+                    </ScrollView>
+                  </View>
               
                 :
                 <View style={{margin:Constants.statusBarHeight+50,
@@ -179,28 +118,16 @@ submitForm=(data)=>{
                       
                     <Button
                        
-                      transparent
+                       block success
+                       style={{padding:10}}
                         onPress={()=>this.props.navigation.navigate('Login')}
-                      ><Text>Login / Register</Text></Button>
+                      ><Text style={{fontSize:16,fontWeight:'600',fontStyle:'italic',color:'#f7f7f7'}}>Login / Register</Text></Button>
                       </View>
                 </View>
-              
-              
               }
           </View>
         )
       }
-
-
-
-
-
-
-
-
-
-
-    
   }
 }
 const styles = StyleSheet.create({
@@ -250,5 +177,7 @@ const mapStateToProps=(state)=>{
     user:state.user
   }
   }
+
+
 
 export default connect(mapStateToProps)(userAddress);
