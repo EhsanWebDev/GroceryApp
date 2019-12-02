@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View,Text,ScrollView } from 'react-native';
 import {connect} from 'react-redux';
 import {getOrders} from '../../store/actions'
-
+import * as Progress from 'react-native-progress';
 
 class MyOrders extends Component {
     constructor(props) {
@@ -12,7 +12,9 @@ class MyOrders extends Component {
             data:[]
         };
     }
-
+static navigationOptions={
+    headerTitle:'My Orders'
+}
     componentDidMount(){
 
         this.props.dispatch(getOrders(this.props.user.auth.ID))
@@ -41,25 +43,37 @@ class MyOrders extends Component {
           case 0:   return  <Text style={{color:'#d35400',fontSize:16,fontWeight:'bold'}}> Order Placed </Text>;
           case 1: return  <Text style={{color:'#f1c40f',fontSize:16,fontWeight:'bold'}}> Order In-Progress </Text>;
           case 2:  return  <Text style={{color:'#2ecc71',fontSize:16,fontWeight:'bold'}}> Order Delivered </Text>;
-          default:      return "#FFFFFF";
+          default:      return null;
         }
       })()}
  
                          </Text>
+                         <View>
+                         {(() => {
+        switch (item.ORDERSTATUS) {
+          case 0:   return  <Progress.Bar progress={0.3} width={null} height={8} />;
+          case 1: return  <Progress.Bar progress={0.7} width={null} height={8} />;
+          case 2:  return  <Progress.Bar progress={1} width={null} height={8} />;
+          default:      return null;
+        }
+      })()}
+                         </View>
                 </View>
         </View>
         )
     }
     render() {
         return (
-            <View>
-                {this.props.orders?
+            <View style={{flex:1}}>
+                {this.props.orders.length > 0?
                 <ScrollView>
                     {this.renderOrders(this.props.orders)}
 
                 </ScrollView>
                 
-                :null}
+                :
+                <Text style={{fontSize:20,fontStyle:'italic',textAlign:'center'}}>You haven't Placed any orders yet.</Text>
+                }
             </View>
         );
     }

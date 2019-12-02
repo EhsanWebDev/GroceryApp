@@ -6,7 +6,7 @@ import {  Icon, Button, Form, Item, Picker } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
 import {connect} from 'react-redux'
 import {setTokens,getTokens} from '../../utls'
-import {addAddress} from '../../store/actions'
+import {addAddress,allAddress} from '../../store/actions'
 import {validateAll,validations} from 'indicative/validator'
 class AddNewAddress extends Component {
     constructor(props) {
@@ -42,7 +42,8 @@ class AddNewAddress extends Component {
                this.setState({errors:{},})
                data.id=this.props.user.auth.ID; 
               this.props.dispatch(addAddress(data)).then(()=>
-              this.props.navigation.navigate('Address')
+              this.props.dispatch(allAddress(this.props.user.auth.ID)),
+              this.props.navigation.goBack()
               )
               
              // console.log(data)
@@ -125,7 +126,7 @@ class AddNewAddress extends Component {
 
 const mapStateToProps=(state)=>{
     return{
-      user:state.user
+      user:state.user,
     }
     }
 

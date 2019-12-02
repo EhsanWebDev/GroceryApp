@@ -3,14 +3,17 @@ import Constants from 'expo-constants';
 import { CheckBox } from 'react-native-elements'
 import { Container, Header, Content, ListItem, Button, Radio, Right, Left } from 'native-base';
 
-import { Text,View,ActivityIndicator,StyleSheet,ScrollView} from 'react-native';
+import { Text,View,ActivityIndicator,StyleSheet,ScrollView,RefreshControl} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import {connect} from 'react-redux'
-import {autoSignIn,thisAddress} from '../../store/actions'
+import {autoSignIn,thisAddress,allAddress} from '../../store/actions'
 import {setTokens,getTokens,URL} from '../../utls'
 import {validateAll,validations} from 'indicative/validator'
 import Axios from 'axios';
+
+
 class userAddress extends Component {
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -20,12 +23,14 @@ class userAddress extends Component {
         value: false,
     };
   }
+  
   static navigationOptions={
   
      headerTitle:'Manage Addresses'
   }
 
   manageState=(isauth,loading)=>{
+  
     this.setState({
       isauth,
       loading
@@ -41,8 +46,7 @@ class userAddress extends Component {
         this.props.dispatch(autoSignIn(val[0][1])).then(()=>{
           !this.props.user.auth?
           this.manageState(false,false):
-          Axios.get(`${URL}api/OrdersApi/AllAddresses?id=`+this.props.user.auth.ID)
-          .then((res)=>this.setState({data:res.data})).catch(e=>console.log(e))
+          this.props.dispatch(allAddress(this.props.user.auth.ID))
           setTokens(this.props.user.auth.ID, ()=>{
             this.manageState(true,false)
           })
@@ -66,6 +70,7 @@ class userAddress extends Component {
     return data.map((item)=>(
       <View key={item.ID} style={{borderWidth:2,borderColor:'#ddd',padding:10}}>
         <View style={{padding:10}}>
+        <Text style={{fontSize:18,textAlign:'center',alignSelf:'center',padding:5}}>Reciever Name: {item.CUSTOMERNAME} </Text>
           <Text style={{fontSize:18,textAlign:'center',alignSelf:'center',padding:5}}>Street Address: {item.STREETADDRESS} </Text>
           <Text style={{fontSize:16,textAlign:'center',alignSelf:'center',padding:5}}>
               Phone Nummber: {item.PHONE}
@@ -99,8 +104,12 @@ class userAddress extends Component {
                     <Button success block onPress={()=>this.props.navigation.navigate('addAddress')}>
                       <Text style={{fontSize:18,color:'#fff',fontWeight:'bold'}}>ADD NEW ADDRESS</Text>
                     </Button>
-                    <ScrollView >
-                      {this.state.data.length > 0 ? this.renderAddress(this.state.data):null}
+                    <ScrollView 
+                    >
+                      {this.props.address.address ? this.renderAddress(this.props.address.address)
+                      :
+                      <Text style={{fontSize:18,alignSelf:'center',textAlign:'center'}}> You haven't saved any address, Add One to Proceed</Text>
+                      }
           
                     </ScrollView>
                   </View>
@@ -174,7 +183,8 @@ boxText:{
 
 const mapStateToProps=(state)=>{
   return{
-    user:state.user
+    user:state.user,
+    address:state.address
   }
   }
 

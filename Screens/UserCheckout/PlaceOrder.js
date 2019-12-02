@@ -98,18 +98,12 @@ class PlaceOrder extends React.Component{
    
 
     render(){
-
-      
-
-
-
         if(this.state.loading){
             return( 
               <View style={styles.loading}>
                 <ActivityIndicator size="large"/>
               </View>
             )
-      
           }
     else{
        return(

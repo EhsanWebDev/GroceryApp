@@ -28,7 +28,6 @@ class Cart extends Component {
 
 
   render() {
-    console.log(this.props)
     return (
       <View style={{flex:1}}>
          {this.props.cartItems.length > 0 ?
@@ -67,7 +66,6 @@ class Cart extends Component {
 }
 
 const mapStateToProps=(state)=>{
-  console.log(state)
     return{
             cartItems:state.cart
     }

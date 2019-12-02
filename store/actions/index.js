@@ -88,6 +88,15 @@ export function placeOrder(data){
         payload:req
     }
 }
+export function allAddress(id){
+ const req= axios.get(`${URL}api/OrdersApi/AllAddresses?id=`+id)
+    .then(res=>res.data).catch(e=>console.log(e))
+
+    return{
+        type:'ALL_ADDRESS',
+        payload:req
+    }
+}
 export function addAddress(data){
    const req= axios({
         url:`${URL}api/OrdersApi/AddAddress`,

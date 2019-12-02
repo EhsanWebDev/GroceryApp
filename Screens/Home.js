@@ -23,6 +23,7 @@ class Home extends Component {
       header:null,
       tabBarLabel:'Home',
   }
+ 
   manageState=(isauth,loading)=>{
     this.setState({
       isauth,
@@ -152,19 +153,11 @@ class Home extends Component {
 }
 
 const mapStateToProps=(state)=>{
-  console.log(state)
   return{
     allProducts:state.allProducts
   }
   
 }
-
-
-
-
-
-
-
 
 const styles = StyleSheet.create({
   statusBar: {
