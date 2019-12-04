@@ -20,7 +20,7 @@ class DisplayProducts extends Component{
     }
     componentDidMount(){
         this.props.dispatch(actions.productsList(this.props.navigation.getParam('subID')));
-      }
+      } 
 
       renderProducts(){
 

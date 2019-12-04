@@ -76,7 +76,7 @@ export function placeOrder(data){
          TotalShippingCharges:data.totalShippingCharges,
          CreatedAt:data.CreatedAt,
          UpdatedAt:data.UpdatedAt,
-         STORE_ID:data.store_id
+         
      }),
      headers: {
          "Content-type": "application/json; charset=UTF-8"

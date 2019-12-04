@@ -13,7 +13,7 @@ import Axios from 'axios';
 
 
 class userAddress extends Component {
-  
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -38,22 +38,33 @@ class userAddress extends Component {
   }
 
   componentDidMount(){
+
+    this._isMounted = true;
     getTokens((val)=>{
       if(val[0][1] === null){
         this.manageState(false,false)
       }
       else{
-        this.props.dispatch(autoSignIn(val[0][1])).then(()=>{
-          !this.props.user.auth?
-          this.manageState(false,false):
-          this.props.dispatch(allAddress(this.props.user.auth.ID))
-          setTokens(this.props.user.auth.ID, ()=>{
-            this.manageState(true,false)
-          })
-        })
+        
+          if(this._isMounted){
+            this.props.dispatch(autoSignIn(val[0][1])).then(()=>{
+              !this.props.user.auth?
+              this.manageState(false,false):
+              this.props.dispatch(allAddress(this.props.user.auth.ID))
+              setTokens(this.props.user.auth.ID, ()=>{
+                this.manageState(true,false)
+              })
+            })
+          }
+           
+        
+        
       }
     })
   } 
+  componentWillUnmount(){
+    this._isMounted= false;
+  }
   filterData=( event, id,add,city)=>{
       
       const data={};

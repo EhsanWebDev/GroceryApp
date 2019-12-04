@@ -48,7 +48,7 @@ class ProductFragContents extends React.Component{
             
            
                 <View>
-                      <TouchableOpacity style = {styles.buttonStyle} onPress={() => this.props.addToCart({id:item.ID,name:item.NAME,price:item.PRICE,discountedPrice:this.calPercentage(item.PRICE,item.DISCOUNT) || null,img:item.IMAGE1, units:1,store_id:item.STORE_ID})}> 
+                      <TouchableOpacity style = {styles.buttonStyle} onPress={() => this.props.addToCart({id:item.ID,name:item.NAME,price:item.PRICE,discountedPrice:this.calPercentage(item.PRICE,item.DISCOUNT) || null,img:item.IMAGE1, units:1,store_id:item.STORE_ID,store:item.STORE})}> 
                               <Text style = {styles.buttonTextStyle}>Add to Cart</Text>
                      </TouchableOpacity>  
                 </View>
