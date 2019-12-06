@@ -15,6 +15,7 @@ class VisitStore extends PureComponent {
         this.state = { 
             data:[],
             limit:6,
+            id:0
          };
     }
 
@@ -24,7 +25,8 @@ class VisitStore extends PureComponent {
 
     componentDidMount(){
      this._isMounted = true;
-           this.getData()
+     const id = this.props.navigation.getParam('id');
+           this.getData(id)
     }
     componentWillUnmount(){
       this._isMounted= false;
@@ -65,9 +67,9 @@ class VisitStore extends PureComponent {
             </View>
         )
     }
-    getData=()=>{
-      const item = this.props.navigation.getParam('item');
-        Axios.get(`${URL}api/StoresApi/ShowStore?id=${item.STORE_ID}&limit=`+this.state.limit)
+    getData=(id)=>{
+      
+        Axios.get(`${URL}api/StoresApi/ShowStore?id=${id}&limit=`+this.state.limit)
         .then((res)=>
         {
           if(this._isMounted)
@@ -80,7 +82,8 @@ class VisitStore extends PureComponent {
         this.setState({
             limit:this.state.limit+6
         })
-        this.getData();
+        const id = this.props.navigation.getParam('id');
+        this.getData(id);
         
     }
     render() {
@@ -99,7 +102,7 @@ class VisitStore extends PureComponent {
                 </Button>
               </Left>
               <Body>
-                <Title>{item.STORE} </Title>
+                <Text style={{fontSize:16,color:'#fff'}}>{item.STORE} </Text>
                 <Text style={{color:'#fff'}}>Lahore</Text>
               </Body>
               <Right>

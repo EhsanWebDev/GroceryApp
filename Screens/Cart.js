@@ -33,20 +33,21 @@ class Cart extends Component {
          {this.props.cartItems.length > 0 ?
          <View style={{flex:1}}>
              <CartItems
-                        
+                         
                         items={this.props.cartItems}
-                        onPress={this.props.removeItem} />
-                       <TouchableOpacity style={{padding:5,flexDirection:'row',justifyContent:'center',width:'100%',
-                                  height:40,backgroundColor:'red',justifyContent:'space-between'}}
+                        RemoveEntire={this.props.removeItem}
+                        addItem={this.props.addItem}
+                        removeOne={this.props.removeOne}
+                        />
+                       <TouchableOpacity style={{padding:5,flexDirection:'row',alignItems:'center',width:'100%',
+                                  height:50,backgroundColor:'#e84118',justifyContent:'space-around'}}
                                   onPress={()=>this.props.navigation.navigate('Address')}
                                   >
-                          <Text style={{color:'#fff',fontSize:16,
+                          <Text style={{color:'#fff',fontSize:20,
                                         fontWeight:'500'}}>
                                           Checkout
-                                       
-                                         
                                           </Text>
-                                          <Text style={{color:'#fff',fontSize:16,fontWeight:'500'}}>
+                                          <Text style={{color:'#fff',fontSize:20,fontWeight:'500'}}>
                                             Total Price:
                                              {this.calPrice()}
                                           </Text>
@@ -72,7 +73,9 @@ const mapStateToProps=(state)=>{
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-      removeItem: (product) => dispatch({ type: 'REMOVE_FROM_CART', payload: product })
+      removeItem: (product) => dispatch({ type: 'REMOVE_FROM_CART', payload: product }),
+      addItem: (product) => dispatch({ type: 'ADD_TO_CART', payload: product }),
+      removeOne:(product) => dispatch({ type: 'REMOVE_ONE', payload: product }),
   }
 }
 

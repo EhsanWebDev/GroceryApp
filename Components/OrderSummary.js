@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import { View, Text, ActivityIndicator, Image, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { Container, Header, Content, Item,Button } from 'native-base';
 import { Input } from 'react-native-elements';
 import {uniqBy,filter} from 'lodash'
@@ -16,11 +16,41 @@ class OrderSummary extends Component {
 
     renderProdList=(data)=>{
         return data.map((item)=>
-            <View key={item.id} style={{flexDirection:'row',justifyContent:'space-between',borderWidth:1,borderColor:'#000',marginBottom:10}}>
-                
-                            <Text style={{fontSize:16,fontWeight:'500',marginBottom:5}}> {item.name} </Text>
-                            <Text style={{fontSize:16,fontWeight:'500',marginBottom:5}}> {item.store} </Text>
-                            <Text style={{fontSize:16,fontStyle:'italic'}}> total: {item.price * item.units}  </Text>
+     <View key={item.id} >
+        <View style={{flexDirection:'row',justifyContent:'flex-start',padding:5,
+                      borderWidth:1,borderColor:'#000',marginBottom:10}}>
+            <View style={{justifyContent:'flex-start',alignItems:'flex-start'}}>
+                <Image source={{uri:`${URL}`+item.img}} style={{width:80,height:80,resizeMode:'contain'}} />
+            </View>
+            <View style={{}}>
+                    <Text style={{fontSize:18,marginBottom:5}}>Product Name: {item.name} </Text>
+                    <Text style={{fontSize:16,marginBottom:5}}>Quantity: {item.units} </Text>
+                    <Text style={{fontSize:14,marginBottom:5}}>Store Name: {item.store} </Text> 
+
+                    {item.discountedPrice?
+                     <View>
+                           <Text style = {{fontSize:16 ,fontWeight:'400',}}>Unit Price: RS 
+                            <Text style={{ textDecorationLine: 'line-through',fontSize:12 , padding:5 }}>  {item.price} </Text>
+                            <Text style={{fontSize:18 ,fontWeight:'600', padding:5}}>   {item.discountedPrice}  </Text>
+
+                            </Text>
+                                    
+                        </View>
+                                          :
+                          <View>
+                             <Text style = {{fontSize:14 ,fontWeight:'400',}}>Unit Price: RS
+                                    <Text style = {{fontSize:14 ,}}> {item.price} </Text>
+                               </Text>
+                                          
+                          </View>
+                     } 
+                     <Text style={{fontSize:16,}}>Total Amount:  {item.price * item.units} </Text>
+                    
+            </View>
+            
+            
+            </View>
+                         
                             
             </View>
         )
@@ -56,9 +86,7 @@ class OrderSummary extends Component {
       let dis=   this.calPercentage(total,this.state.promoRes.AMOUNT);
           console.log(dis)
           }).catch(e=>console.log(e));
-
-          
-          
+ 
       }
 
     render() {
@@ -73,25 +101,32 @@ class OrderSummary extends Component {
 
         
         return (
-            <View>
+            <ScrollView style={{flex:1}}>
+                <View style={{padding:10,margin:10}}>
+                <Input
+                    placeholder='ENTER PROMO CODE'
+                    onChangeText={(value)=>this.setState({promo:value})}
+                    
+                />
+                 <Button success block style={{}} onPress={()=>this.UniqueByID(this.state.promo)}>
+                     <Text style={{color:'#fff',padding:5,fontSize:16}}>CHECK</Text>
+                 </Button>
+                </View>
+                  
                 <Text style={{fontWeight:'600',fontSize:20,marginBottom:5}}>
                             PRODUCTS LIST</Text>
                 
                 {this.props.items?this.renderProdList(this.props.items):null}
                 <Text style={{fontWeight:'600',fontSize:18,marginVertical:5}}>Total Price =    {this.calPrice(this.props.items)} </Text>
-                <View style={{flexDirection:'row',justifyContent:'space-around',paddingHorizontal:5}}>
-                    
-                <Input
-                    placeholder='ENTER PROMO CODE'
-                    onChangeText={(value)=>this.setState({promo:value})}
-                />
-                 <Button success onPress={()=>this.UniqueByID(this.state.promo)}>
-                     <Text style={{fontWeight:'600',color:'#fff',padding:5,fontSize:16}}>CHECK</Text>
-                 </Button>
+                <View style={{flex:1}}>
+                
+              
+                
+                
                 </View>
                 <Text style={{fontSize:16,marginVertical:5}}>Discount =    0% </Text>
                 <Text style={{fontWeight:'600',fontSize:18,marginVertical:5,borderTopColor:'#ddd',paddingVertical:10,borderTopWidth:2}}>Grand Total =    {this.calPrice(this.props.items)} </Text>
-            </View>
+            </ScrollView>
         );
         }
     }

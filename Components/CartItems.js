@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View,ScrollView, Text,StyleSheet,Image,Button} from 'react-native';
+import { View,ScrollView, Text,StyleSheet,Image} from 'react-native';
 import {URL} from '../utls'
+import { Button } from 'native-base';
 class CartItems extends Component {
   constructor(props) {
     super(props);
@@ -20,36 +21,72 @@ class CartItems extends Component {
          
          <View style={{flexDirection:'row'}}>
               <Image source={{uri:`${URL}`+item.img}}
-                  style={{height:80,width:80}} />
+                  style={{height:100,width:100,resizeMode:'contain'}} />
       <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',flex:1}}>
-            <View>
-                       <Text style={{marginLeft:10, fontSize:16,
-                                fontWeight:'600',}}>{item.name}</Text>
+            <View style={{marginLeft:25}}>
+                       <Text style={{marginLeft:1, fontSize:20,fontWeight:'bold'}}>{item.name}</Text>
                         {item.discountedPrice? 
-                              <View style={{marginLeft:10}}>
-                              <Text style = {{fontSize:14 ,fontWeight:'400',}}>RS 
-                             <Text style={{fontSize:14 ,fontWeight:'400', padding:5}}>{ item.discountedPrice}</Text>
+                              <View style={{paddingVertical:5}}>
+                              <Text style = {{fontSize:14 ,}}>Discounted Price: RS 
+                             <Text style={{fontSize:14 , paddingVertical:5}}> { item.discountedPrice}</Text>
 
                              </Text>
                      
                            </View>
                             :
-                            <View style={{marginLeft:10}}>
-                            <Text style = {{fontSize:14 ,fontWeight:'400',}}>RS
-                                <Text style = {{fontSize:14 ,fontWeight:'400',}}> {item.price} </Text>
+                            <View style={{paddingVertical:5}}>
+                            <Text style = {{fontSize:14 ,}}>Unit Price: RS
+                                <Text style = {{fontSize:14 ,}}> {item.price} </Text>
                              </Text>
                           
                           </View>
                         }
-                          <Text style={{marginLeft:10,fontStyle:'italic', fontSize:14,
-                                fontWeight:'200',color:'green'}}>Quantity{item.units}</Text>
+                      <Text style={{fontSize:16,paddingVertical:5}}>Total Price: {item.units * item.price} </Text>
+
+                        
+           <View style={{flexDirection:'row',flex:1,justifyContent:'space-between'}}>
+             <View style={{flexDirection:'row',marginRight:70}}>
+             <Button
+                  success small rounded
+              onPress={() => this.props.removeOne(item)}
+              style={{padding:10,margin:5}}
+              >
+                <Text style={{color:'#fff',fontWeight:'bold',fontSize:24}}>-</Text>
+              </Button>
+            
+              <Button
+                  dark small rounded
+                  style={{padding:10,margin:5}}
+              >
+                <Text style={{color:'#fff',fontWeight:'bold',fontSize:18}}> {item.units} </Text>
+              </Button>
+
+              <Button
+                  success small rounded
+                  onPress={() => this.props.addItem(item)}
+                  style={{padding:10,margin:5}}
+              >
+                <Text style={{color:'#fff',fontWeight:'bold',fontSize:24}}>+</Text>
+              </Button>
+             </View>
+           <View style={{}}>
+           <Button
+                  danger small rounded
+                  onPress={() => this.props.RemoveEntire(item)}
+                  style={{padding:10,margin:5}}
+              >
+                <Text style={{color:'#fff',fontWeight:'600',fontSize:16}}>x</Text>
+              </Button>
+           </View>
+            
+
+           </View>
+          
+          
 
             </View>
-            <View >
-                    <Button title="Remove" 
-                            style={{backgroundColor:'red'}}
-                            onPress={() => onPress(item)} />
-            </View>
+            
+         
       </View>
                   
                  

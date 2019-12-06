@@ -1,5 +1,5 @@
 import {AsyncStorage} from 'react-native'
-export const URL = `http://172.16.132.183/`;
+export const URL = `http://192.168.2.162/`;
 
 
 export const getTokens=async (cb)=>{
@@ -9,7 +9,7 @@ export const getTokens=async (cb)=>{
      ]).then(values =>{
          cb(values);
      })
- 
+  
  }
  export const setTokens= async(values,cb)=>{
        await AsyncStorage.multiSet([

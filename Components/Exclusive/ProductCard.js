@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text , Image , TouchableOpacity } from 'react-native';
+import { View, Text , Image , TouchableOpacity,ToastAndroid } from 'react-native';
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {addToCart} from '../../store/actions'
@@ -48,7 +48,7 @@ class ProductFragContents extends React.Component{
             
            
                 <View>
-                      <TouchableOpacity style = {styles.buttonStyle} onPress={() => this.props.addToCart({id:item.ID,name:item.NAME,price:item.PRICE,discountedPrice:this.calPercentage(item.PRICE,item.DISCOUNT) || null,img:item.IMAGE1, units:1,store_id:item.STORE_ID,store:item.STORE})}> 
+                      <TouchableOpacity style = {styles.buttonStyle} onPress={() => this.addto({id:item.ID,name:item.NAME,price:item.PRICE,discountedPrice:this.calPercentage(item.PRICE,item.DISCOUNT) || null,img:item.IMAGE1, units:1,store_id:item.STORE_ID,store:item.STORE})}> 
                               <Text style = {styles.buttonTextStyle}>Add to Cart</Text>
                      </TouchableOpacity>  
                 </View>
@@ -66,35 +66,11 @@ class ProductFragContents extends React.Component{
   }
 
  
-
-
-
-  handleAddFunc(product,cartState) {
-    const existingProductIndex = cartState.findIndex(p => p.id === product.id);
-
-    if (existingProductIndex >= 0) {
-
-        
-        const updatedCart = [...cartState];
-        
-        const existingProduct = updatedCart[existingProductIndex];
-
-        const updatedUnitsProduct = {
-          ...existingProduct,
-          units: existingProduct.units + product.units
-        };
-
-        updatedCart[existingProductIndex] = updatedUnitsProduct;
-
-       // console.log(cartProducts)
-
-        this.props.addToCart(updatedCart)
-
-    } else {
-    
-      this.props.addToCart(product)
-    }
-  }
+addto=(data)=>{
+  ToastAndroid.show(`${data.name} Added to the Cart !`, ToastAndroid.SHORT)
+ 
+  this.props.addToCart(data)
+}
 
  
 

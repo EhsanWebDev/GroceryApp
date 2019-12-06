@@ -52,7 +52,7 @@ class Home extends Component {
                     <Header style = {{backgroundColor:'seagreen'}}>
                                      
                                      <Body> 
-                                           <Title style = {{ fontSize:20,fontWeight:'700'}}>Grocery-Mart</Title>
+                                           <Title style = {{ fontSize:22,fontWeight:'700'}}>Grocery-Mart</Title>
                                      </Body>
                                      <Right>
                                           <CartIcon />
@@ -95,7 +95,7 @@ class Home extends Component {
                                            
                     </Header>
 
-                    <View style = {{height:130 , marginTop:5,paddingLeft:5}}>
+              {/*     <View style = {{height:130 , marginTop:5,paddingLeft:5}}>
                                       <ScrollView 
                                       horizontal= {true}
                                       showsHorizontalScrollIndicator = {false}
@@ -121,7 +121,7 @@ class Home extends Component {
         
                                       </ScrollView>
         
-                     </View>
+                                      </View>*/}
 
                      <View style = {{backgroundColor:'seagreen',marginTop:20,padding:5, flex:1}}>
                       

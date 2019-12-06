@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Constants from 'expo-constants';
-import { View, Text ,ScrollView ,StyleSheet,  TouchableOpacity} from 'react-native';
+import { View, Text ,ScrollView ,StyleSheet,Dimensions, Image, TouchableOpacity,ToastAndroid} from 'react-native';
 import {Left, Right , H3, Button , Icon , Header , Body,Title} from 'native-base';
 import RelatedProductSlider from './RelatedProSlider'
 import SellerViewer from './SellerViewer'
@@ -8,12 +8,14 @@ import Review from './Reviews'
 import ProductSlider from './ProductSlider'
 import { connect } from 'react-redux';
 import CartIcon from '../../Screens/ShoppingCartIcon'
+import axios from 'axios'
+import {URL} from '../../utls'
 
 class ProductDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      related:[]
+      related:[],item:0
     };
   }
   static navigationOptions={
@@ -24,12 +26,23 @@ class ProductDetails extends Component {
     var totalValue = price - (price * dis)
     return totalValue;
   }
+  componentDidMount(){
+    const item= this.props.navigation.getParam('item')
+    axios.get(`${URL}api/ProductsApi/RelatedProducts/?id=`+item.CATEGORY_ID)
+    .then(res=>this.setState({related:res.data,loading:false}))
+  }
  
+  getData=(catID)=>{
+    
+  }
+  addto=(data)=>{
+    ToastAndroid.show(`${data.name} Added to the Cart !`, ToastAndroid.SHORT)
+    this.props.addItemToCart(data)
+  }
  
 
   render() {
     const item= this.props.navigation.getParam('item')
-    
     if(item){
        return (
       <View>
@@ -51,49 +64,39 @@ class ProductDetails extends Component {
                 </Header>
                
                  <View style = {{padding: 5,}}>
-                 <ScrollView 
-                        horizontal= {true}
-                        showsHorizontalScrollIndicator = {true}
-                        indicatorStyle='black'
-                        pagingEnabled={true}
-                       
-                        >
-                                            <ProductSlider imageUri = {item.IMAGE1}
-                                                        name = "Vegetables">
-
-                                            </ProductSlider>
-                        </ScrollView>
-
+                 <Image  source= {{uri:`${URL}`+item.IMAGE1}} 
+                            style = {{width:Dimensions.get('window').width, height:200 , resizeMode:'contain'}} 
+                    />
                 </View>            
-                 
+                  
                  <View>
                       <View style = {styles.headingContainer}>
                         <View>
-                                  <Text style = {{color:'#000' , fontWeight:'bold',fontStyle:'italic'
+                                  <Text style = {{color:'#000', fontSize:18,fontStyle:'italic'
                                                  ,fontSize:18}}>{item.NAME}</Text>
                                   {item.DISCOUNT?
                                           <View>
-                                             <Text style = {{fontSize:14 ,fontWeight:'400',}}>RS
-                                             <Text style={{ textDecorationLine: 'line-through',fontSize:12 ,fontWeight:'400', padding:5 }}> {item.PRICE} </Text>
-                                            <Text style={{fontSize:14 ,fontWeight:'400', padding:5}}>{this.calPercentage(item.PRICE,item.DISCOUNT)}</Text>
+                                             <Text style = {{fontSize:16 ,fontWeight:'400',}}>RS
+                                             <Text style={{ textDecorationLine: 'line-through',fontSize:12 , padding:5 }}> {item.PRICE} </Text>
+                                            <Text style={{fontSize:16 ,fontWeight:'600', padding:5}}>{this.calPercentage(item.PRICE,item.DISCOUNT)}</Text>
 
                                             </Text>
                                     
                                           </View>
                                           :
                                           <View>
-                                            <Text style = {{fontSize:14 ,fontWeight:'400',}}>RS
-                                                <Text style = {{fontSize:14 ,fontWeight:'400',}}> {item.PRICE} </Text>
+                                            <Text style = {{fontSize:16 ,fontWeight:'400',}}>RS
+                                                <Text style = {{fontSize:16 ,}}> {item.PRICE} </Text>
                                              </Text>
                                           
                                           </View>
                                           } 
 
-
+ 
                                   <Text style = {{fontStyle:'italic',  fontSize:16 ,}}>{item.UOM_NAME}</Text>
                         </View> 
                         <View>
-                              <TouchableOpacity style = {styles.buttonStyle} onPress={()=>this.props.addItemToCart({id:item.ID,name:item.NAME,price:item.PRICE,discountedPrice:this.calPercentage(item.PRICE,item.DISCOUNT) || null,img:item.IMAGE1, units:1,store_id:item.STORE_ID,store:item.STORE})} > 
+                              <TouchableOpacity style = {styles.buttonStyle} onPress={() => this.addto({id:item.ID,name:item.NAME,price:item.PRICE,discountedPrice:this.calPercentage(item.PRICE,item.DISCOUNT) || null,img:item.IMAGE1, units:1,store_id:item.STORE_ID,store:item.STORE})} > 
                                     <Text style = {styles.buttonTextStyle}>Add to Cart</Text>
                                </TouchableOpacity>  
                         </View>
@@ -112,22 +115,14 @@ class ProductDetails extends Component {
                   
                   </SellerViewer>
 
-                      <View style = {{marginTop:20 , paddingLeft:10}}>
-                              <Text style = {{fontSize:20 , fontWeight:'bold'}}>Related Products</Text>
-                            <View style  = {{height:220}} >
-                                  
-                                       <RelatedProductSlider catID={item.CATEGORY_ID} onPress={this.props.addItemToCart}/>
-                                   
+                  <View style = {{marginTop:20 , paddingLeft:10}}>
+                              <Text style = {{fontSize:22}}>Related Products</Text>
+                            <View style  = {{}} >
+                                       <RelatedProductSlider items={this.state.related} onPress={this.props.addItemToCart}/>
                             </View>        
                       </View>
-                      <View style = {{marginTop:20 , paddingLeft:10}}>
-                              <Text style = {{fontSize:20 , fontWeight:'bold'}}>People also buy these</Text>
-                            <View style  = {{height:220}} >
-                                  
-                                       <RelatedProductSlider catID={item.CATEGORY_ID}/>
-                                   
-                            </View>        
-                      </View>
+                      
+                     
                 </View>   
 
                   <View style={{marginTop:40 ,marginBottom:30}}>

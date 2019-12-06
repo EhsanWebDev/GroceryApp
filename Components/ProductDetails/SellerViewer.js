@@ -14,46 +14,25 @@ class SellerViewer extends Component {
       <View style ={styles.mainContainer}>
           <View style={styles.rowContainer}>
                 <View>
-                    <Text style={{fontSize:16,fontWeight:'bold'}}> {this.props.item.STORE} </Text>
-                    <View style={{alignItems:'flex-start',justifyContent:'center'}}>
+                    <Text style={{fontSize:20,fontStyle:'italic',paddingBottom:10}}>SELL BY: {this.props.item.STORE} </Text>
+                    <View style={{alignItems:'center',justifyContent:'center'}}>
                     <StarRating 
                      disabled = {true}
-                     starSize = {16}
+                     starSize = {18}
                      maxStars = {5}
                      fullStarColor = 'orange'
                      rating = {4.5}
                      emptyStarColor = 'orange' />
                 </View>
                 </View>
-                <View>
-                    <TouchableOpacity style={{borderColor:'red',borderWidth:1,padding:5}}>
-                       <Text style={{color:'red', fontSize:18}}>Follow</Text>
-                    </TouchableOpacity>
-                </View>
           </View>
           
-          <View style={styles.percentageContainer}>
-                <View style={styles.subPerContainer}>
-                    <Text style={{fontSize:24, fontWeight:'bold'}}>75%</Text>
-                    <Text style={{fontSize:12,textAlign:'center', color:'grey'}}>Positive User Ratings</Text>
-                </View>
-
-                <View style={styles.subPerContainer}>
-                    <Text style={{fontSize:24, fontWeight:'bold'}}>89%</Text>
-                    <Text style={{fontSize:12, color:'grey' }}>Ship on Time</Text>
-                </View>
-
-                <View style={styles.subPerContainer}>
-                    <Text style={{fontSize:22, fontWeight:'bold'}}>95%</Text>
-                    <Text style={{fontSize:12, color:'grey'}}>Chat Response Rate</Text>
-                </View>
-               
-               
-          </View>
+         
           
           <View style={{justifyContent:'center', alignItems:'center', marginTop:10}}>
               <TouchableOpacity onPress={()=>this.props.navigation.navigate('VisitStore',{
-                  item:this.props.item
+                  item:this.props.item,
+                  id:this.props.item.STORE_ID
                   })}>
                   <Text style={{color:'red', fontSize:16}}>Visit Store</Text>
             </TouchableOpacity>
@@ -69,12 +48,11 @@ const styles = {
         borderRadius: 5,
         borderColor: '#000',
         margin: 10,
-        padding: 5,
+        padding: 20,
         marginTop:20
     },
     rowContainer:{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center',
         padding:10,
 

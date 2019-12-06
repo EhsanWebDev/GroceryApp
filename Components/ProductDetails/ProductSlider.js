@@ -8,32 +8,18 @@ class ProductSlider extends Component {
     {
         return(
 
-            <View style = {styles.mainViewStyle}>
-
-                <View style = {{flex:1}}>
-
+            <View style = {{flex:1}}>
                     <Image  source= {{uri:`${URL}`+this.props.imageUri}} 
-                            style = {{width:Dimensions.get('window').width, height:300 , resizeMode:'contain'}} 
+                            style = {{width:Dimensions.get('window').width, height:200 , resizeMode:'contain'}} 
                     />
-
-                </View>
-              
-
-
+                
             </View>
         )
     }
 }
 
 const styles = {
-    mainViewStyle:{
-        
-        shadowColor: '#000',
-        shadowOffset:{width:1 , height:5},
-        shadowOpacity:0.8,
-        elevation:5,
-        width:400, height:300
-    }
+   
 }
 
 export default ProductSlider;

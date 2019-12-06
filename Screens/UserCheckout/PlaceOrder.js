@@ -103,18 +103,18 @@ class PlaceOrder extends React.Component{
               <View style={styles.loading}>
                 <ActivityIndicator size="large"/>
               </View>
-            )
+            ) 
           }
     else{
        return(
              <View style={{flex:1}}>
                  {this.props.cartItems.length > 0 ?
-               <View style={{ marginTop:Constants.statusBarHeight+5}}>
+               <View style={{ marginTop:Constants.statusBarHeight+5,flex:1}}>
                     <View>
                         <Text style={{borderWidth:2,borderColor:'#d35400',padding:10,
-                                fontSize:18,width:'100%',fontStyle:'italic',textAlign:'center',
+                                fontSize:18,width:'100%',fontStyle:'italic',textAlign:'center',color:'#000',
                                 alignSelf:'center'}}>
-                          Shipping Address:  {this.props.address.address.address} {this.props.address.address.city}
+                          Shipping Address:  {this.props.address.address.STREETADDRESS} {this.props.address.address.CITY}
                         </Text>
                     <Text style={{fontSize:16,fontStyle:'italic',fontWeight:'bold'
                             ,borderBottomColor:'#000',borderBottomWidth:1,
@@ -125,7 +125,7 @@ class PlaceOrder extends React.Component{
                         
                     </View>  
 
-                         <View style={{padding:10}}>
+                         <View style={{padding:10,flex:1}}>
                                <OrderSummary
                                     items={this.props.cartItems} />
 

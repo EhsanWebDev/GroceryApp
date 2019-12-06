@@ -11,7 +11,9 @@ export default function(state=[],action){
                             ...state,
                         address:
                              action.payload || false,
-                    }              
+                    } 
+                    
+                          
          default:
              return state               
     }

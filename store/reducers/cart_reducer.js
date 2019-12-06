@@ -14,12 +14,19 @@ export default function(state=[],action){
 
           case 'EMPTY':
               return state=[]
-
-
-
-
             case 'REMOVE_FROM_CART':
                     return state.filter(cartItem => cartItem.id !== action.payload.id)
+            case 'REMOVE_ONE':
+                const products = action.payload;
+                const cartItems = state;
+          
+                const existingProductsIndex = findProductIndex(cartItems, products.id);
+          
+                const updatedCarts = existingProductsIndex >= 0 
+                    ? removeOne(cartItems, products)
+                    : [...cartItems, products];
+          
+                return updatedCarts;
             
             case 'CHECKOUT':
                     return state=[] 
@@ -27,6 +34,27 @@ export default function(state=[],action){
         default:
                 return state    
     }
+}
+
+const removeOne=(cart,product)=>{
+  const productIndex = findProductIndex(cart, product.id);
+
+  const updatedCart = [...cart];
+  const existingProduct = updatedCart[productIndex];
+  if(existingProduct.units>1){
+    const updatedUnitsProduct = {
+      ...existingProduct,
+      units: existingProduct.units - 1
+    };
+    updatedCart[productIndex] = updatedUnitsProduct;
+    return updatedCart;
+  }
+  else{
+   return cart.filter(cartItem => cartItem.id !== product.id)
+  }
+ 
+  
+ 
 }
 
 const findProductIndex = (cart, productID) => {
@@ -41,7 +69,7 @@ const findProductIndex = (cart, productID) => {
   
     const updatedUnitsProduct = {
       ...existingProduct,
-      units: existingProduct.units + product.units
+      units: existingProduct.units + 1
     };
   
     updatedCart[productIndex] = updatedUnitsProduct;

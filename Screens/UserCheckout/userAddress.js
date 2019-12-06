@@ -68,9 +68,9 @@ class userAddress extends Component {
   filterData=( event, id,add,city)=>{
       
       const data={};
-      data.id=id;
-      data.address=add;
-      data.city=city
+      data.ID=id;
+      data.STREETADDRESS=add;
+      data.CITY=city
      // console.log(data)  
      this.props.dispatch(thisAddress(data));
       this.props.navigation.navigate('PlaceOrders')
