@@ -55,6 +55,13 @@ class Home extends Component {
                                            <Title style = {{ fontSize:22,fontWeight:'700'}}>Grocery-Mart</Title>
                                      </Body>
                                      <Right>
+                                     <Button transparent onPress = {() => this.props.navigation.navigate('Maps')}>
+                                           <Icon name='pin' size={80} />
+                                           </Button>
+                                     <Button transparent onPress = {() => this.props.navigation.navigate('chat')}>
+                                           <Icon name='chatboxes' size={80} />
+                                           </Button>
+                                       
                                           <CartIcon />
                                            
                                           {this.state.isauth? null:

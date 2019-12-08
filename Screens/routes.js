@@ -24,6 +24,7 @@ import MyOrders from './UserScreens/MyOrders'
 import { Icon } from 'native-base';
 import VisitStore from './Store/VisitStore'
 import addAddress from './UserCheckout/AddNewAddress'
+import chat from './UserScreens/Chat'
 const Home = createStackNavigator ({
     HomeScreen:HomeScreen,
     PD:ProductDetails,
@@ -31,7 +32,9 @@ const Home = createStackNavigator ({
     Cart:Cart,
     Address:userAddress,
     addAddress:addAddress,
-    PlaceOrders:PlaceOrder    
+    PlaceOrders:PlaceOrder ,
+    chat:chat,
+    Maps:Maps   
        
   })
   const Catagory = createStackNavigator ({
