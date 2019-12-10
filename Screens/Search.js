@@ -35,12 +35,6 @@ class SearchScreen extends PureComponent {
     toggleModal = () => {
       this.setState({ isModalVisible: !this.state.isModalVisible });
     };
-
-    
-
-    
-      
-
     
     static navigationOptions={
       header:null

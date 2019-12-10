@@ -45,7 +45,8 @@ const Home = createStackNavigator ({
     VisitStore:VisitStore,
     Cart:Cart,
     userAddress:userAddress ,   
-    PlaceOrders:PlaceOrder 
+    PlaceOrders:PlaceOrder ,
+    chat:chat,
        
   })
   const SearchScreen= createStackNavigator({
@@ -61,6 +62,7 @@ const Home = createStackNavigator ({
   const ProfileNavigation = createStackNavigator({
     Profile:Profile,
     Maps:Maps,
+    VisitStore:VisitStore,
     UpdateUser:UpdateUser,
     CheckAuth:CheckAuth,
     MyOrders:MyOrders,
