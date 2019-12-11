@@ -7,6 +7,8 @@ import ProductCard from '../Components/Exclusive/ProductCard'
 import {URL} from '../utls'
 import Modal from "react-native-modal";
 import {uniqBy} from 'lodash'
+import { getDistance } from 'geolib';
+import * as Permissions from 'expo-permissions';
 class SearchScreen extends PureComponent {
     constructor(props) {
       super(props);
@@ -16,8 +18,22 @@ class SearchScreen extends PureComponent {
         data:[],
         selected2: '',
         selected3: '',
-        isModalVisible: false
+        isModalVisible: false,
+        latitude:null,
+        longitude:null,
+        km:0
       };
+    }
+  async  componentDidMount() {
+      const { status } = await Permissions.getAsync(Permissions.LOCATION)
+
+      if (status !== 'granted') {
+        const response = await Permissions.askAsync(Permissions.LOCATION)
+      }
+      navigator.geolocation.getCurrentPosition(
+        ({ coords: { latitude, longitude } }) => this.setState({ latitude, longitude }, ()=>console.log('state:',this.state)),
+        (error) => console.log('Error:', error)
+      )
     }
     onValueChange2(value) {
       this.setState({
@@ -35,7 +51,7 @@ class SearchScreen extends PureComponent {
     toggleModal = () => {
       this.setState({ isModalVisible: !this.state.isModalVisible });
     };
-    
+     
     static navigationOptions={
       header:null
     }
@@ -153,6 +169,24 @@ class SearchScreen extends PureComponent {
         );
       };
     }
+    filterByDistance=(event,value)=>{
+      let long=data.longitude;
+      let lat = data.latitude;
+      const newData = data.storeData.filter(this._getPreciseDistance)
+     this.setState({distances:newData})
+     console.log(this.state.distances)
+    }
+  _getPreciseDistance = (element) => {
+    let long=this.state.longitude;
+    let lat = this.state.latitude;
+   let pdis=   getDistance(
+        {latitude: element.LATITUDE?element.LATITUDE:0,longitude: element.LONGITUDE?element.LONGITUDE:0},
+        { latitude: element.LATITUDE?lat:0, longitude: element.LONGITUDE?long:0 }
+      )
+          if(  pdis < this.state.radius && this.state.radius !== 0){
+            return pdis
+          }
+  };
   
     render() {
       
@@ -197,6 +231,15 @@ class SearchScreen extends PureComponent {
                 <Text style={{paddingHorizontal:10,fontSize:16,fontWeight:'500'}}>Store Name</Text>
                 <View style={{flexDirection:'row',flexWrap:'wrap'}}>
                 {this.state.data? this.renderButtons(this.state.data):null}
+               
+                </View>
+
+                <Text style={{paddingHorizontal:10,fontSize:16,marginTop:10,fontWeight:'500'}}>Search By Distance</Text>
+                <View style={{flexDirection:'row',flexWrap:'wrap'}}>
+                <Button success small value="1" onPress={(e)=>this.filterByDistance(e,1)}>
+                  <Text>Less then 1KM </Text>
+                </Button>
+              
                
                 </View>
                

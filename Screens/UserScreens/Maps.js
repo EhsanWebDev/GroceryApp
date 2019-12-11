@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text,StyleSheet,ActivityIndicator,Platform, KeyboardAvoidingView } from 'react-native';
+import { View, Text,StyleSheet,ActivityIndicator, KeyboardAvoidingView, } from 'react-native';
+import {Icon} from 'native-base'
 import Constants from 'expo-constants';
 import MapView,{Marker,Circle, Callout} from 'react-native-maps';
 import * as Location from 'expo-location';
@@ -26,7 +27,7 @@ class Maps extends Component {
         <Marker
         key={e.ID}
         coordinate={{ latitude:parseFloat(e.LATITUDE) ,longitude:parseFloat(e.LONGITUDE)  }}
-        
+        image={require('../../assets/store.jpg')}
       >
         <Callout style={{padding:20}} onPress={()=>this.props.navigation.navigate('VisitStore',{
                   item:e,
@@ -38,10 +39,11 @@ class Maps extends Component {
                 <Text style={{color:'#fff',}}>Visit Store</Text>
               </Button>
         </Callout>
+        
       </Marker>
         )
     )
-      calDistance=(data)=>{
+   calDistance=(data)=>{
         let long=data.longitude;
         let lat = data.latitude;
         const newData = data.storeData.filter(this._getPreciseDistance)
@@ -58,26 +60,6 @@ class Maps extends Component {
             if(  pdis < this.state.radius && this.state.radius !== 0){
               return pdis
             }
-/* data.storeData.forEach( element => {
-  let newData = null
-        let pdis = getDistance(
-          {latitude: element.LATITUDE?element.LATITUDE:0,longitude: element.LONGITUDE?element.LONGITUDE:0},
-          { latitude: element.LATITUDE?lat:0, longitude: element.LONGITUDE?long:0 }
-        );  
-            if(pdis !== 0 && data.radius !==0 && pdis< data.radius){
-             this.setState({distances:element})
-            }
-           
-          
-      });*/
-     // console.log(data.distances)
-        //console.log(this.state.distances)
-     /* if(data.radius !== 0 && pdis < data.radius){
-        alert(`Precise Distance\n${pdis} Meter\nor\n${pdis / 1000} KM`);
-      }
-      
-      else
-      alert('Select Radius')*/
     };
     static navigationOptions={
       header:null

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import StarRating from 'react-native-star-rating'
+import { Button } from 'native-base';
 
 class SellerViewer extends Component {
   constructor(props) {
@@ -36,6 +37,11 @@ class SellerViewer extends Component {
                   })}>
                   <Text style={{color:'red', fontSize:16}}>Visit Store</Text>
             </TouchableOpacity>
+            <Button danger block onPress={()=>this.props.navigation.navigate('chat',{
+              item:this.props.item,
+            })}>
+              <Text style={{fontSize:16,fontWeight:'bold',color:'#fff'}}>Chat With Seller</Text>
+            </Button>
           </View>
       </View>
     );

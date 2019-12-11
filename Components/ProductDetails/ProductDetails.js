@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Constants from 'expo-constants';
+import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 import { View, Text ,ScrollView ,StyleSheet,Dimensions, Image, TouchableOpacity,ToastAndroid} from 'react-native';
 import {Left, Right , H3, Button , Icon , Header , Body,Title} from 'native-base';
 import RelatedProductSlider from './RelatedProSlider'
@@ -11,6 +12,7 @@ import CartIcon from '../../Screens/ShoppingCartIcon'
 import axios from 'axios'
 import {URL} from '../../utls'
 
+const { width: screenWidth } = Dimensions.get('window')
 class ProductDetails extends Component {
   constructor(props) {
     super(props);
@@ -21,6 +23,7 @@ class ProductDetails extends Component {
   static navigationOptions={
     header:null
   }
+
   calPercentage=(price,discountRate)=>{
     const dis = discountRate / 100;
     var totalValue = price - (price * dis)
@@ -63,7 +66,7 @@ class ProductDetails extends Component {
 
                 </Header>
                
-                 <View style = {{padding: 5,}}>
+                 <View style = {{padding: 5,marginBottom:1}}>
                  <Image  source= {{uri:`${URL}`+item.IMAGE1}} 
                             style = {{width:Dimensions.get('window').width, height:200 , resizeMode:'contain'}} 
                     />
@@ -115,15 +118,17 @@ class ProductDetails extends Component {
                   
                   </SellerViewer>
 
-                  <View style = {{marginTop:20 , paddingLeft:10}}>
+                 <View style = {{marginTop:20 , paddingLeft:10,marginBottom:1}}>
                               <Text style = {{fontSize:22}}>Related Products</Text>
                             <View style  = {{}} >
                                        <RelatedProductSlider items={this.state.related} onPress={this.props.addItemToCart}/>
                             </View>        
-                      </View>
-                      
+                 </View>
+                
+         
                      
                 </View>   
+                
 
                   <View style={{marginTop:40 ,marginBottom:30}}>
                     <View style = {{ paddingHorizontal:10,flexDirection:'row',justifyContent: 'space-between',}}>
@@ -166,7 +171,21 @@ const styles = StyleSheet.create({
     fontWeight:'200',
     fontStyle:'italic',
     color:'#fff'
-  }
+  },
+  item: {
+    width: screenWidth - 180,
+    height: screenWidth - 180,
+  },
+  imageContainer: {
+    flex: 1,
+    marginBottom: 1, // Prevent a random Android rendering issue
+    backgroundColor: 'white',
+    borderRadius: 8,
+  },
+  image: {
+    ...StyleSheet.absoluteFillObject,
+    resizeMode: 'contain',
+  },
 })
 
 const mapDispatchToProps = (dispatch) => {

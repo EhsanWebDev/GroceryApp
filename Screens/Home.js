@@ -9,7 +9,7 @@ import CartIcon from './ShoppingCartIcon'
 import { connect } from 'react-redux'
 import * as actions from '../store/actions'
 import {setTokens,getTokens,removeTokens} from '../utls'
-
+import Carousel from 'react-native-snap-carousel';
 class Home extends Component {
   constructor(props) {
     super(props);
