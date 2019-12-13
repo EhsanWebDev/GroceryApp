@@ -21,7 +21,7 @@ class SearchScreen extends PureComponent {
         isModalVisible: false,
         latitude:null,
         longitude:null,
-        km:0
+        km:0,radius:0
       };
     }
   async  componentDidMount() {
@@ -169,12 +169,14 @@ class SearchScreen extends PureComponent {
         );
       };
     }
-    filterByDistance=(event,value)=>{
-      let long=data.longitude;
-      let lat = data.latitude;
-      const newData = data.storeData.filter(this._getPreciseDistance)
-     this.setState({distances:newData})
-     console.log(this.state.distances)
+    filterByDistance= async(event,value)=>{
+    await this.setState({ radius: value * 1000 })
+        const myData = this.state.data
+      const newData = myData.filter(this._getPreciseDistance)
+   
+     await this.setState({ data: newData })
+     // console.log(newData)
+    // console.log(this.state.distances)
     }
   _getPreciseDistance = (element) => {
     let long=this.state.longitude;
@@ -236,9 +238,10 @@ class SearchScreen extends PureComponent {
 
                 <Text style={{paddingHorizontal:10,fontSize:16,marginTop:10,fontWeight:'500'}}>Search By Distance</Text>
                 <View style={{flexDirection:'row',flexWrap:'wrap'}}>
-                <Button success small value="1" onPress={(e)=>this.filterByDistance(e,1)}>
+                <Button success small value="1" style={{margin:5}} onPress={(e)=>this.filterByDistance(e,1)}>
                   <Text>Less then 1KM </Text>
                 </Button>
+              
               
                
                 </View>

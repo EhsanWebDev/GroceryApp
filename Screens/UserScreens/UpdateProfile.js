@@ -7,7 +7,7 @@ import axios from 'axios'
 import {Button,Icon} from 'native-base'
 import ValidationRules from './Rules'
 import {connect} from 'react-redux'
-import {updateUser} from '../../store/actions'
+import {updateUser,autoSignIn} from '../../store/actions'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 class UpdateProfile extends Component {
     constructor(props) {
@@ -75,14 +75,21 @@ componentDidMount(){
 
            data.created = datetime;
            data.updated = datetime;
-           data.name = this.props.
+           data.id = this.props.user.auth.ID;
+           data.name = this.props.user.auth.NAME;
+           data.password = this.props.user.auth.PASSWORD;
+           data.email = this.state.email;
+          
 
            console.log(data)
-
-        /*   this.props.dispatch(signUp(data)).then(()=>{
-               this.setState({loading:false})
-               this.props.navigation.navigate('VerifyEmail')
-           })*/
+           this.setState({loading:true})
+         this.props.dispatch(updateUser(data)).then(()=>{
+           this.props.dispatch(autoSignIn(data.id)).then((res)=>{
+            this.setState({loading:false})
+            this.props.navigation.goBack()
+           })
+              
+           })
     }
 
     render() {

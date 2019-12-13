@@ -27,7 +27,7 @@ class Maps extends Component {
         <Marker
         key={e.ID}
         coordinate={{ latitude:parseFloat(e.LATITUDE) ,longitude:parseFloat(e.LONGITUDE)  }}
-        image={require('../../assets/store.jpg')}
+        
       >
         <Callout style={{padding:20}} onPress={()=>this.props.navigation.navigate('VisitStore',{
                   item:e,
@@ -57,7 +57,7 @@ class Maps extends Component {
           {latitude: element.LATITUDE?element.LATITUDE:0,longitude: element.LONGITUDE?element.LONGITUDE:0},
           { latitude: element.LATITUDE?lat:0, longitude: element.LONGITUDE?long:0 }
         )
-            if(  pdis < this.state.radius && this.state.radius !== 0){
+            if(  pdis < this.state.radius*1000 && this.state.radius !== 0){
               return pdis
             }
     };
@@ -105,7 +105,7 @@ class Maps extends Component {
           >
             <Circle
               center={{ longitude, latitude }}
-              radius={this.state.radius?parseInt(this.state.radius):0}
+              radius={this.state.radius?parseInt(this.state.radius*1000):0}
               strokeWidth={2}
               strokeColor={"rgba(230, 126, 34,1.0)"}
               fillColor={"rgba(52, 152, 219,0.5)"}
@@ -119,7 +119,7 @@ class Maps extends Component {
           <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={40}>
         
         <Input
-          placeholder="Enter Radius in Meters"
+          placeholder="Enter Radius in KM"
           onChangeText={(value)=>this.setState({radius:value})}
           
         />

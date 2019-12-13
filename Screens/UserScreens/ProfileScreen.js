@@ -128,13 +128,12 @@ class ProfileScreen extends Component {
                                <Icon name='create'/>
                            <Text style={{fontSize:16,fontWeight:'bold'}}>Edit your Profile</Text>
                          </Button>
-                         <View style ={{flexDirection:"row",}} >
-                                <Button block danger style={{flex:1}}>
+                    {  /*   <View style ={{flexDirection:"row",}} >
+                                <Button block success style={{flex:1}}>
                                     <Icon name = "chatboxes"style ={{color:"white", fontSize:24, marginRight:10}}></Icon>
-                                    <Text style = {{ color:'white', fontSize:20}}>Live Chat</Text>
+                                    <Text style = {{ color:'white', fontSize:20}}>Chats</Text>
                                 </Button>
-                            
-                         </View>   
+              </View>   */}
                          
                          <View>
                                 <View style={{ flexDirection:'row',padding:5,flexWrap:'wrap'}}>
@@ -158,13 +157,13 @@ class ProfileScreen extends Component {
                                             </View>
                                     </TouchableOpacity>
                 
-                                    <TouchableOpacity style={{flex:1}}>
+                                   {/* <TouchableOpacity style={{flex:1}}>
                                             <View style={styles.boxStyle}>
                                             
                                             <Icon style={{fontSize:30,color:'#fff',padding:5}} name ="analytics"/>
                                             <Text style={styles.boxText}>Track Order</Text>
                                             </View>
-                                    </TouchableOpacity>
+                                    </TouchableOpacity> */}
                 
                                     
                                    
@@ -183,22 +182,23 @@ class ProfileScreen extends Component {
                                    </TouchableOpacity>
                 
                 
-                                   <TouchableOpacity style={{flex:1}}>
+                                   <TouchableOpacity style={{flex:1}} onPress={()=>this.props.navigation.navigate('Address')}>
                                            <View style={styles.boxStyle}>
                                            
-                                           <Icon style={{fontSize:30,color:'#fff',padding:5}} name ="analytics"/>
-                                           <Text style={styles.boxText}>Track Your order</Text>
+                                           <Icon style={{fontSize:30,color:'#fff',padding:5}} name ="home"/>
+                                           <Text style={styles.boxText}>My Addresses</Text>
                                            </View>
-                                   </TouchableOpacity>
+                                     </TouchableOpacity>
                                   
                 
                                    
                                   
                                </View>
-                               <Button block danger style={{marginTop:20}} iconLeft>
+                   
+               {/*     <Button block danger style={{marginTop:20}} iconLeft>
                                <Icon name='close' style={{color:'#fff'}}/>
-            <Text style={{fontSize:16,color:'#fff',fontWeight:'bold'}}>Delete your Profile</Text>
-          </Button>
+                    <Text style={{fontSize:16,color:'#fff',fontWeight:'bold'}}>Delete your Profile</Text>
+                                  </Button>*/}
                               
                          </View>
                          
@@ -267,8 +267,9 @@ imageStyle:{
      
 },
 boxStyle:{
-    
-    backgroundColor:'#22a6b3',
+    alignItems:'center',
+    justifyContent:'center',
+    backgroundColor:'#2c3e50',
     borderColor:'#ddd',
     shadowColor: '#000',
     shadowOffset:{width:2 , height:2},

@@ -194,6 +194,13 @@ export function logOut(){
     }
   }
 
+  export function newMSG(msg){
+       return{
+        type:'NEW_MSG',
+        payload:msg
+       } 
+  }
+
 export function updateUser(data){
 
     const req=  axios( {
@@ -204,7 +211,7 @@ export function updateUser(data){
             NAME:data.name,
             EMAIL:data.email,
             PASSWORD:data.password,
-            CONTACT:data.mobileNumber,
+            CONTACT:data.mobile,
             USERTYPE:1,
             CREATED_AT:data.created,
             UPDATED_AT:data.updated

@@ -7,6 +7,7 @@ import allProducts from './allProducts_reducer'
 import user from './user_reducer'
 import order from './order_reducer'
 import address from './address_reducer'
+import chat from './chat_reducer'
 const rootReducer = combineReducers({
     categories,
     cart,
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
     allProducts,
     user,
     order,
-    address
+    address,
+    chat
 })
 
 export default rootReducer;

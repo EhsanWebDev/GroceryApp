@@ -58,9 +58,6 @@ class Home extends Component {
                                      <Button transparent onPress = {() => this.props.navigation.navigate('Maps')}>
                                            <Icon name='pin' size={80} />
                                            </Button>
-                                     <Button transparent onPress = {() => this.props.navigation.navigate('chat')}>
-                                           <Icon name='chatboxes' size={80} />
-                                           </Button>
                                        
                                           <CartIcon />
                                            

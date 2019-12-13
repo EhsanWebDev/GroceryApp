@@ -1,18 +1,21 @@
-import React, { Component } from 'react';
+import React, { Component, } from 'react';
 import { View,Text,KeyboardAvoidingView,ActivityIndicator,  } from 'react-native';
 import {Header, Body, Right, Button, Title ,Left, Icon,Segment, Content,Container,} from 'native-base'
 import { GiftedChat } from 'react-native-gifted-chat'
 import Constants from 'expo-constants';
 import {connect} from 'react-redux'
-import {autoSignIn , logOut} from '../../store/actions'
-import {setTokens,getTokens,removeTokens} from '../../utls'
+import {autoSignIn , newMSG} from '../../store/actions'
+import {setTokens,getTokens,removeTokens, URL} from '../../utls'
 import { Ionicons } from '@expo/vector-icons';
-
+import Axios from 'axios'
 
 class Chat extends Component {
-    state = {  messages: [],
+  _isMounted = false;
+    state = {
+      messages: [],
       isauth:false,
-      loading:true
+      loading:true,
+      message:null
     }
     static navigationOptions={
       header:null
@@ -24,6 +27,7 @@ class Chat extends Component {
       })
     }
     componentDidMount() {
+      this._isMounted = true;
       getTokens((val)=>{
         if(val[0][1] === null){
           this.manageState(false,false)
@@ -35,24 +39,27 @@ class Chat extends Component {
             setTokens(this.props.user.auth.ID,()=>{
               this.manageState(true,false)
             })
-            //console.log(this.props.user.auth)
+            
           })
         }
       })
-        this.setState({
-          messages: [
-            {
-              _id: 1,
-              text: 'Hello Customer',
-              createdAt: new Date(),
-              user: {
-                _id: 2,
-                name: 'React Native',
-                avatar: 'https://placeimg.com/140/140/any',
-              },
-            },
-          ],
-        })
+      Axios.get(`${URL}api/ChatApi/receive?userqueue=ehsan47`)
+      .then(res=>this.props.dispatch(newMSG(res.data))).catch(e=>console.log(e))
+  }
+      componentWillUnmount(){
+        this._isMounted= false;
+      }
+     /* componentWillUpdate(nextState){
+        if(this.state.messages!== nextState.messages){
+          Axios.get(`${URL}api/ChatApi/receive?userqueue=ehsan47`)
+          .then(res=>this.props.dispatch(newMSG(res.data))).catch(e=>console.log(e))
+        }
+
+      }*/
+      getMore(){
+        Axios.get(`${URL}api/ChatApi/receive?userqueue=ehsan47`)
+         .then(res=>this.props.dispatch(newMSG(res.data))).catch(e=>console.log(e))
+          
       }
       onSend(messages = []) {
         const item = this.props.navigation.getParam('item');
@@ -61,8 +68,9 @@ class Chat extends Component {
         request.USER_ID = this.props.user.auth.ID;
         request.MESSAGE = messages[0].text;
         request.SENDER = "CUSTOMER";
-        request.friend = item.STORE
+        request.friend = "Talha786"
         console.log(request)
+      
         this.setState(previousState => ({
           messages: GiftedChat.append(previousState.messages, messages),
         }))
@@ -96,13 +104,15 @@ class Chat extends Component {
             
           </Body>
           <Right>
-            <Text style={{fontSize:16,color:'#fff'}}>{this.props.user.auth.NAME}</Text>
+            <Button transparent small onPress={()=>this.getMore()}>
+              <Text>Refresh</Text>
+            </Button>
           </Right>
         </Header>
          <KeyboardAvoidingView keyboardVerticalOffset={20} behavior="padding" style={{flex:1}}>
             <GiftedChat
             
-             messages={this.state.messages}
+             messages={this.props.chat}
              onSend={messages => this.onSend(messages)}
              user={{
                  _id: 1,
@@ -144,7 +154,8 @@ class Chat extends Component {
 const mapStateToProps=(state)=>{
   console.log(state)
   return{
-    user:state.user
+    user:state.user,
+    chat:state.chat
   }
   }
 

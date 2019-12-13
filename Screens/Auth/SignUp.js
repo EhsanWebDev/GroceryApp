@@ -19,7 +19,7 @@ class SignUp extends React.Component{
                 email:'',
                 mobile:'',
                 errors:{},
-                data:[],
+                usernameAvailable:2,
                 emailAvailable:2,
                 loading:false
             }
@@ -57,7 +57,7 @@ class SignUp extends React.Component{
                    this.setState({errors:{}, loading:true})
 
                 axios.get(`${URL}api/UsersApi/IsUserExist_F?username=`+this.state.username).then((res)=>{
-                       this.setState({data:res.data, loading:false})
+                       this.setState({usernameAvailable:res.data, loading:false})
                         axios.get(`${URL}api/UsersApi/IsEmailExist_F?EMAIL=`+this.state.email)
                         .then((res)=>{
                             this.setState({emailAvailable:res.data})
@@ -148,7 +148,7 @@ class SignUp extends React.Component{
                 {this.state.errors["username"]}
               </Text>
             )}
-            {this.state.data.length > 0 ? (
+            {this.state.usernameAvailable === 1 ? (
               <Text
                 style={{ fontSize:16,
                   borderWidth:1,borderColor:'#000',padding:5,
@@ -231,7 +231,7 @@ class SignUp extends React.Component{
               
             />
 
-            {this.state.emailAvailable === 0 && this.state.data === 0 ? (
+            {this.state.emailAvailable === 0 && this.state.usernameAvailable === 0 ? (
               <View style={{ width: "100%", marginTop: 10,padding:10 }}>
                 <Button
                   title="SignUp"
