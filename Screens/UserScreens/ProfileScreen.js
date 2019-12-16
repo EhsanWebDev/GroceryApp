@@ -91,7 +91,9 @@ class ProfileScreen extends Component {
                              </View>
                              <View style={{marginTop:5}}>
                                  <View style = {{flexDirection:'row', marginBottom:10}}>
-              <Text style = {{fontSize:16,color:'white', marginRight:5}}>{this.props.user.auth?this.props.user.auth.NAME:'EHSAN AHMAD'}</Text>
+                             <Text style = {{fontSize:16,color:'white', marginRight:5}}>
+                               {this.props.user.auth?this.props.user.auth.NAME:'EHSAN AHMAD'}
+                               </Text>
                                     <Icon name = "checkmark-circle-outline" style = {{color:'white'}}></Icon>
                                  </View>
                                   
@@ -122,11 +124,11 @@ class ProfileScreen extends Component {
                              </View>
                           
                          </View>
-                         <Button block light style={{marginBottom:10}} iconRight
+                         <Button block dark style={{marginBottom:10}} iconRight
                                   onPress={()=>this.props.navigation.navigate('UpdateUser')}
                          >
-                               <Icon name='create'/>
-                           <Text style={{fontSize:16,fontWeight:'bold'}}>Edit your Profile</Text>
+                               <Icon name='chatboxes'/>
+                           <Text style={{fontSize:16,color:'#fff',fontWeight:'bold'}}>My Chats</Text>
                          </Button>
                     {  /*   <View style ={{flexDirection:"row",}} >
                                 <Button block success style={{flex:1}}>
@@ -170,9 +172,7 @@ class ProfileScreen extends Component {
                                 </View>
                 
                                 <View style={{ flexDirection:'row',padding:5,flexWrap:'wrap'}}>
-                                   
-                                  
-                
+    
                                    <TouchableOpacity style={{flex:1}} onPress ={()=> this.props.navigation.navigate('Maps')}>
                                            <View style={styles.boxStyle}>
                                            
@@ -180,19 +180,14 @@ class ProfileScreen extends Component {
                                            <Text style={styles.boxText}>Search Store Nearby</Text>
                                            </View>
                                    </TouchableOpacity>
-                
-                
-                                   <TouchableOpacity style={{flex:1}} onPress={()=>this.props.navigation.navigate('Address')}>
+  
+                                   <TouchableOpacity style={{flex:1}} onPress={()=>this.props.navigation.navigate('MyAddresses')}>
                                            <View style={styles.boxStyle}>
                                            
                                            <Icon style={{fontSize:30,color:'#fff',padding:5}} name ="home"/>
                                            <Text style={styles.boxText}>My Addresses</Text>
                                            </View>
-                                     </TouchableOpacity>
-                                  
-                
-                                   
-                                  
+                                     </TouchableOpacity>  
                                </View>
                    
                {/*     <Button block danger style={{marginTop:20}} iconLeft>

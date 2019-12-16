@@ -4,7 +4,6 @@ import {createBottomTabNavigator} from 'react-navigation-tabs'
 import {createStackNavigator} from 'react-navigation-stack'
 import HomeScreen from'./Home'
 import Profile from '../Screens/UserScreens/ProfileScreen'
-import Login from './Auth/Login'
 import Search from './Search'
 import Maps from './UserScreens/Maps'
 import Cart from './Cart'
@@ -25,6 +24,8 @@ import { Icon } from 'native-base';
 import VisitStore from './Store/VisitStore'
 import addAddress from './UserCheckout/AddNewAddress'
 import chat from './UserScreens/Chat'
+import MyAddresses from './UserScreens/MyAddresses'
+import ConfirmAddress from './UserCheckout/ConfirmAddress'
 const Home = createStackNavigator ({
     HomeScreen:HomeScreen,
     PD:ProductDetails,
@@ -34,7 +35,9 @@ const Home = createStackNavigator ({
     addAddress:addAddress,
     PlaceOrders:PlaceOrder ,
     chat:chat,
-    Maps:Maps   
+    Maps:Maps ,
+    ConfirmAddress:ConfirmAddress,
+    MyAddresses:MyAddresses  
        
   })
   const Catagory = createStackNavigator ({
@@ -47,7 +50,7 @@ const Home = createStackNavigator ({
     userAddress:userAddress ,   
     PlaceOrders:PlaceOrder ,
     chat:chat,
-       
+    MyAddresses:MyAddresses   
   })
   const SearchScreen= createStackNavigator({
     Search:Search,
@@ -67,8 +70,7 @@ const Home = createStackNavigator ({
     CheckAuth:CheckAuth,
     MyOrders:MyOrders,
     ForgotPassword:ForgotPassword,
-    Address:userAddress,
-    addAddress:addAddress,
+    MyAddresses:MyAddresses
   })
   const TabNavigation= createBottomTabNavigator({
     Home:{screen:Home,

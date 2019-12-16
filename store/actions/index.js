@@ -120,8 +120,14 @@ export function addAddress(data){
 }
 export function thisAddress(data){
     return{
-        type:'CHOOSE_ADDRESS',
+        type:'DEFAULT_ADDRESS',
         payload:data
+    }
+}
+export function deleteAddress(ID){
+    return{
+        type:'DELETE_ADDRESS',
+        payload:ID
     }
 }
 
@@ -136,7 +142,15 @@ export function getOrders(id){
             payload:req
         }
 }
-
+export function deleteOrder(id){
+    axios.get(`${URL}api/OrdersApi/DeleteOrder?id=`+id)
+           .then(res=>console.log(res))
+           .catch(e=>console.log(e))
+    return{
+        type:'DELETE_ORDER',
+        payload:id
+    }
+}
 
 export function signUp(data){
 

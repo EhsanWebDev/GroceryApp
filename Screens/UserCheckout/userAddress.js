@@ -56,9 +56,6 @@ class userAddress extends Component {
               })
             })
           }
-           
-        
-        
       }
     })
   } 

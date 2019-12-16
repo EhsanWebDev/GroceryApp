@@ -1,5 +1,5 @@
 import {AsyncStorage} from 'react-native'
-export const URL = `http://10.135.20.185/`;
+export const URL = `http://10.135.34.29/`;
 
 
 export const getTokens=async (cb)=>{
@@ -17,6 +17,7 @@ export const getTokens=async (cb)=>{
              cb();
          })
  }
+
  
  export const removeTokens = async(cb)=>{
      await AsyncStorage.removeItem('@grocery_userID').then(()=>{

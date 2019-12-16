@@ -44,7 +44,7 @@ class PlaceOrder extends React.Component{
         data.total_quantity = this.getTotalQuantity(quantities);
         data.total_price = this.calPrice();
         data.amountAfterDiscount = this.calPrice();
-        data.shippingID= this.props.address.address.id
+        data.shippingID= this.props.defaultAddress[0].ID
         data.orderStatus=0;
         data.totalShippingCharges= this.calPrice() + 20;
         data.CreatedAt=datetime;
@@ -114,7 +114,7 @@ class PlaceOrder extends React.Component{
                         <Text style={{borderWidth:2,borderColor:'#d35400',padding:10,
                                 fontSize:18,width:'100%',fontStyle:'italic',textAlign:'center',color:'#000',
                                 alignSelf:'center'}}>
-                          Shipping Address:  {this.props.address.address.STREETADDRESS} {this.props.address.address.CITY}
+                          Shipping Address:  {this.props.defaultAddress[0].STREETADDRESS} {this.props.defaultAddress[0].CITY}
                         </Text>
                     <Text style={{fontSize:16,fontStyle:'italic',fontWeight:'bold'
                             ,borderBottomColor:'#000',borderBottomWidth:1,
@@ -174,7 +174,8 @@ const mapStateToProps=(state)=>{
     console.log(state.order)
     return{
         cartItems:state.cart,
-        address:state.address
+        address:state.address,
+        defaultAddress:state.address.defaultAddress,
     }
 }
 

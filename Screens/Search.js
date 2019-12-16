@@ -16,6 +16,7 @@ class SearchScreen extends PureComponent {
       this.state = {
         query:"",
         data:[],
+        selected1:'',
         selected2: '',
         selected3: '',
         isModalVisible: false,
@@ -43,9 +44,16 @@ class SearchScreen extends PureComponent {
     this.setState({
       data:data
     })
-
-    
-      
+    }
+    onValueChange1(value) {
+      this.setState({
+        selected1: value
+      });
+   // const data = this.state.data.filter(this.compareValues('PRICE',value))
+    const data =this.state.data.filter((item) => item.STORE === value).map((item) => (item));
+      this.setState({
+        data:data
+      })
 
     }
     toggleModal = () => {
@@ -137,9 +145,7 @@ class SearchScreen extends PureComponent {
     renderButtons=(items)=>{
      let data =  uniqBy(items,'STORE')
       return data.map((item)=>(
-        <Button key={item.ID} value="hello" onPress={(event) => this.filterData(event, item.STORE)} warning small style={{margin:2}}>
-            <Text> {item.STORE} </Text>
-        </Button>
+        <Picker.Item key={item.ID} label={item.STORE} value={item.STORE} />
       ))
     }
 
@@ -231,9 +237,17 @@ class SearchScreen extends PureComponent {
           <View style={{ height:'80%',width:"100%", backgroundColor:'#fff'}}>
             <View style={{flex:1}}>
                 <Text style={{paddingHorizontal:10,fontSize:16,fontWeight:'500'}}>Store Name</Text>
-                <View style={{flexDirection:'row',flexWrap:'wrap'}}>
-                {this.state.data? this.renderButtons(this.state.data):null}
-               
+                <View style={{flex:1}}>
+                <Picker
+               selectedValue={this.state.selected1}
+              style={{height: 50, width: 200, marginBottom:20}}
+              onValueChange={(itemValue) =>this.onValueChange1(itemValue)
+           }>
+             <Picker.Item label="Filter By Stores" value="" />
+           {this.state.data? this.renderButtons(this.state.data):null}
+        </Picker>
+                
+           
                 </View>
 
                 <Text style={{paddingHorizontal:10,fontSize:16,marginTop:10,fontWeight:'500'}}>Search By Distance</Text>

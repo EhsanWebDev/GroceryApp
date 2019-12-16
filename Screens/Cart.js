@@ -41,7 +41,7 @@ class Cart extends Component {
                         />
                        <TouchableOpacity style={{padding:5,flexDirection:'row',alignItems:'center',width:'100%',
                                   height:50,backgroundColor:'#e84118',justifyContent:'space-around'}}
-                                  onPress={()=>this.props.navigation.navigate('Address')}
+                                  onPress={()=>this.props.navigation.navigate('ConfirmAddress')}
                                   >
                           <Text style={{color:'#fff',fontSize:20,
                                         fontWeight:'500'}}>

@@ -4801,6 +4801,11 @@ react-native-simple-radio-button@^2.7.4:
   resolved "https://registry.yarnpkg.com/react-native-simple-radio-button/-/react-native-simple-radio-button-2.7.4.tgz#86e2dbe8af9e6bf60eee088f60466f7a975e7758"
   integrity sha512-QOZNmJUn0ViBGU+at7wAG/uGzd5PfXi0kMHr9lfTCLXknW/f9f2fOVjxjdHvOCdf/zA/eMJBjGjtusSDzQf1+w==
 
+react-native-slide-button-codificar@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-slide-button-codificar/-/react-native-slide-button-codificar-1.4.0.tgz#cf7d339cd88cc0aefb8f240c8fe3e3c303f3b758"
+  integrity sha512-B8CYCbuTGOJBZiE4Kqg9+2lzhDn245bGHELlbZkBve/3131JdYww6SthLkib8nRWSxyB9VHizfM12wFBYf8vfw==
+
 react-native-snap-carousel@^3.8.4:
   version "3.8.4"
   resolved "https://registry.yarnpkg.com/react-native-snap-carousel/-/react-native-snap-carousel-3.8.4.tgz#4c749c6a714d46ed82de527233850cb5da41bc62"
