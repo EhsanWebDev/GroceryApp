@@ -55,7 +55,7 @@ class Catagory extends Component {
     return (
       <ScrollView style={{flex:1}}>
         <View style={styles.statusBar} />
-            <Text style ={styles.mainHeading}> Catagories </Text>
+            <Text style ={styles.mainHeading}> Categories </Text>
             <View style = {styles.mainView}>
                 
                
