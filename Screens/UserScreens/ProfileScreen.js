@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Constants from 'expo-constants';
-import { Text,View,Image,ActivityIndicator, TouchableOpacity,StyleSheet,AsyncStorage } from 'react-native';
+import { Text,View,Image,ActivityIndicator, TouchableOpacity,StyleSheet } from 'react-native';
 import { Thumbnail,Icon,Button, Badge } from 'native-base'
 import { Avatar} from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
@@ -43,10 +43,6 @@ class ProfileScreen extends Component {
         })
       }
     })
-
-   
-
-   
   }
 
   _signout=()=>{

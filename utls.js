@@ -1,5 +1,5 @@
 import { AsyncStorage } from "react-native";
-export const URL = `http://10.135.20.217/`;
+export const URL = `http://10.135.20.21/`;
 
 export const getTokens = async cb => {
   await AsyncStorage.multiGet(["@grocery_userID"]).then(values => {
