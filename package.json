@@ -15,7 +15,7 @@
     "expo-permissions": "~7.0.0",
     "geolib": "^3.1.0",
     "indicative": "^7.2.3",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "native-base": "^2.13.8",
     "react": "16.8.3",
     "react-dom": "16.8.3",
